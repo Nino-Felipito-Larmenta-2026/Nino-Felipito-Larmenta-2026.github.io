@@ -3,44 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Niño Felipito de Larmenta 2026 • Festividad Patronal</title>
+  <title>Santuario Virtual • Festividad Niño Felipito de Larmenta 2026</title>
   
-  <!-- Tipografías de Alta Fidelidad -->
+  <!-- Tipografía Editorial de Lujo -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cinzel+Decorative:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cinzel+Decorative:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
 
   <style>
     /* ==========================================================================
-       DESIGN SYSTEM (Emil Kowalski Craft & Figma Design Tokens)
+       VARIABLES DE COLOR & ESTILO (Andean Velvet Baroque & Emil Kowalski Spring)
        ========================================================================== */
     :root {
-      --bg: #070103;
-      --surface-1: #120306;
-      --surface-2: #1c050a;
-      --surface-glass: rgba(24, 4, 9, 0.78);
-      --surface-glass-border: rgba(235, 192, 85, 0.22);
+      --bg-void: #050102;
+      --bg-temple: #0f0205;
+      --bg-glass: rgba(22, 3, 7, 0.78);
+      --border-gold: rgba(235, 192, 85, 0.35);
+      --border-bright: rgba(255, 245, 192, 0.7);
       
-      --gold-light: #fff5c0;
-      --gold-main: #dfba54;
-      --gold-deep: #b38728;
-      --gold-gradient: linear-gradient(135deg, #fff2b0 0%, #d4af37 45%, #8a6514 100%);
-      --gold-foil: linear-gradient(115deg, transparent 20%, rgba(255, 245, 192, 0.6) 45%, rgba(212, 175, 55, 0.9) 50%, rgba(255, 245, 192, 0.6) 55%, transparent 80%);
+      --gold-100: #fffadc;
+      --gold-200: #fedb70;
+      --gold-300: #d4af37;
+      --gold-400: #aa7c11;
+      --gold-gradient: linear-gradient(135deg, #fff5c0 0%, #d4af37 40%, #875e07 100%);
+      --gold-sheen: linear-gradient(120deg, transparent 30%, rgba(255, 250, 220, 0.7) 50%, transparent 70%);
       
-      --crimson-accent: #b01028;
-      --crimson-glow: rgba(176, 16, 40, 0.35);
-      
-      --text-1: #ffffff;
-      --text-2: #eed8b8;
-      --text-3: #a38c70;
-      
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 22px;
-      --radius-full: 9999px;
+      --red-baroque: #8c0a1d;
+      --red-glow: rgba(176, 16, 40, 0.45);
       
       --spring: cubic-bezier(0.16, 1, 0.3, 1);
-      --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --spring-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     * {
@@ -54,750 +46,684 @@
     html, body {
       width: 100%;
       height: 100%;
-      background: var(--bg);
-      color: var(--text-1);
+      background: var(--bg-void);
+      color: #fff;
       font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
       overflow-x: hidden;
       overflow-y: auto;
-      scroll-behavior: smooth;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Ambient Spotlight & Mesh Glow */
-    .ambient-glow {
+    /* Canvas de Fondo: Cielo Estrellado de los Andes y Pirotecnia */
+    #skyCanvas {
       position: fixed;
       inset: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 0;
-      background: 
-        radial-gradient(circle 500px at 50% -10%, rgba(176, 16, 40, 0.38) 0%, transparent 70%),
-        radial-gradient(circle 400px at 80% 40%, rgba(212, 175, 55, 0.12) 0%, transparent 70%),
-        radial-gradient(circle 600px at 20% 90%, rgba(176, 16, 40, 0.22) 0%, transparent 70%);
     }
 
-    /* Subtle grid overlay */
-    .ambient-glow::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px);
-      background-size: 32px 32px;
-      opacity: 0.8;
-    }
-
-    #fireworksCanvas {
+    #fxCanvas {
       position: fixed;
       inset: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 9999;
     }
 
-    /* ==========================================================================
-       CONTAINER & HEADER
-       ========================================================================== */
-    .app-wrap {
-      position: relative;
+    /* Ambient Spotlight */
+    .temple-glow {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle 600px at 50% 15%, rgba(140, 10, 29, 0.35) 0%, transparent 70%),
+        radial-gradient(circle 450px at 50% 85%, rgba(212, 175, 55, 0.15) 0%, transparent 75%);
+      pointer-events: none;
       z-index: 1;
-      max-width: 500px;
+    }
+
+    /* APP WRAPPER */
+    .app-container {
+      position: relative;
+      z-index: 2;
+      max-width: 480px;
       margin: 0 auto;
-      padding: 16px 16px 120px 16px;
+      padding: 12px 14px 130px 14px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
 
-    /* Floating Pill Header */
-    .top-header {
+    /* ==========================================================================
+       ISLA DINÁMICA SUPERIOR (Glass Capsule)
+       ========================================================================== */
+    .temple-nav {
       position: sticky;
-      top: 12px;
+      top: 10px;
       z-index: 100;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 14px;
-      background: var(--surface-glass);
+      padding: 8px 12px;
+      background: var(--bg-glass);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--surface-glass-border);
-      border-radius: var(--radius-full);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 245, 192, 0.2);
+      border: 1px solid var(--border-gold);
+      border-radius: 9999px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 250, 220, 0.2);
     }
 
-    .brand-mark {
+    .temple-brand {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
-    .brand-icon {
-      width: 28px;
-      height: 28px;
+    .temple-crest {
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       background: var(--gold-gradient);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+      color: #000;
+      font-size: 0.8rem;
+      font-weight: 900;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
     }
-    .brand-title {
+    .temple-brand-text {
       font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 800;
       letter-spacing: 1.5px;
-      color: var(--gold-light);
+      color: var(--gold-100);
     }
 
-    .header-actions {
+    .temple-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
-    /* Interactive Action Pills */
-    .action-pill {
+    .pill-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      background: rgba(38, 5, 11, 0.85);
+      gap: 5px;
+      padding: 6px 11px;
+      background: rgba(35, 4, 10, 0.85);
       border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: var(--radius-full);
-      color: var(--gold-light);
+      border-radius: 9999px;
+      color: var(--gold-100);
       font-family: 'Cinzel', serif;
-      font-size: 0.66rem;
+      font-size: 0.65rem;
       font-weight: 700;
       cursor: pointer;
       outline: none;
       transition: all 0.2s var(--spring);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     }
-    .action-pill:active {
+    .pill-btn:active {
       transform: scale(0.92);
     }
-    .action-pill.active {
+    .pill-btn.active {
       background: var(--gold-gradient);
       color: #0c0103;
       border-color: #fff;
       font-weight: 800;
-      box-shadow: 0 0 18px rgba(212, 175, 55, 0.8);
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.8);
     }
 
-    /* Wave visualizer */
-    .audio-eq {
+    .eq-bars {
       display: flex;
-      align-items: center;
       gap: 2px;
       height: 10px;
+      align-items: center;
     }
-    .audio-eq span {
+    .eq-bars span {
       width: 2px;
       height: 3px;
       background: currentColor;
       border-radius: 1px;
-      transition: height 0.1s ease;
     }
-    .active .audio-eq span:nth-child(1) { animation: eqHop 0.5s infinite alternate ease-in-out; }
-    .active .audio-eq span:nth-child(2) { animation: eqHop 0.7s infinite alternate ease-in-out 0.15s; }
-    .active .audio-eq span:nth-child(3) { animation: eqHop 0.4s infinite alternate ease-in-out 0.3s; }
-    @keyframes eqHop {
-      0% { height: 2px; }
-      100% { height: 10px; }
-    }
+    .active .eq-bars span:nth-child(1) { animation: jump 0.5s infinite alternate ease-in-out; }
+    .active .eq-bars span:nth-child(2) { animation: jump 0.7s infinite alternate ease-in-out 0.15s; }
+    .active .eq-bars span:nth-child(3) { animation: jump 0.4s infinite alternate ease-in-out 0.3s; }
+    @keyframes jump { 0% { height: 2px; } 100% { height: 10px; } }
 
     /* ==========================================================================
-       HERO: 3D HOLOGRAPHIC PATRON CARD (Emil Kowalski Micro-Physics)
+       HERO: EL RETABLO SAGRADO 3D CON PUERTAS BATIENTES INTERACTIVAS
        ========================================================================== */
-    .hero-card-container {
-      perspective: 1000px;
+    .retablo-scene {
+      position: relative;
+      width: 100%;
+      perspective: 1400px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    .hologram-card {
+    /* Retablo Container */
+    .retablo-frame {
       position: relative;
       width: 100%;
-      border-radius: var(--radius-lg);
-      background: linear-gradient(145deg, rgba(38, 5, 12, 0.95) 0%, rgba(14, 2, 5, 0.98) 100%);
-      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 24px;
+      background: linear-gradient(145deg, #26050e 0%, #100205 100%);
+      border: 2px solid var(--gold-300);
       box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.9),
-        0 0 40px rgba(212, 175, 55, 0.18),
-        inset 0 1px 1px rgba(255, 245, 192, 0.35);
-      padding: 24px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+        0 25px 60px rgba(0, 0, 0, 0.95),
+        0 0 45px rgba(212, 175, 55, 0.25),
+        inset 0 1px 1px rgba(255, 250, 220, 0.4);
+      padding: 20px 16px;
       text-align: center;
       overflow: hidden;
       transform-style: preserve-3d;
-      transition: transform 0.25s var(--spring), box-shadow 0.25s var(--spring);
-      cursor: pointer;
     }
 
-    /* Shimmer foil reflection */
-    .hologram-card::before {
-      content: "";
-      position: absolute;
-      inset: -100%;
-      background: var(--gold-foil);
-      transform: rotate(35deg) translateY(-80%);
-      transition: transform 0.7s ease;
-      pointer-events: none;
-      opacity: 0.35;
-    }
-    .hologram-card:hover::before,
-    .hologram-card:active::before {
-      transform: rotate(35deg) translateY(80%);
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      background: rgba(176, 16, 40, 0.4);
-      border: 1px solid rgba(212, 175, 55, 0.4);
+    .retablo-header-crest {
       font-family: 'Cinzel', serif;
       font-size: 0.62rem;
-      letter-spacing: 2px;
-      color: var(--gold-light);
-      margin-bottom: 8px;
+      letter-spacing: 2.5px;
+      color: var(--gold-200);
+      margin-bottom: 2px;
     }
-
-    .hero-h1 {
+    .retablo-main-title {
       font-family: 'Cinzel Decorative', 'Cinzel', serif;
-      font-size: 2.15rem;
+      font-size: 2.2rem;
       font-weight: 900;
       line-height: 1.05;
       background: var(--gold-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9));
-      margin-bottom: 4px;
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.9));
+      margin-bottom: 2px;
     }
-
-    .hero-location {
+    .retablo-subtitle {
       font-family: 'Cinzel', serif;
-      font-size: 0.72rem;
-      letter-spacing: 2px;
-      color: var(--text-2);
-      margin-bottom: 18px;
-    }
-
-    /* Sacred Portrait Frame with Breathing Halo */
-    .portrait-wrap {
-      position: relative;
-      width: 170px;
-      height: 225px;
-      margin: 4px 0 18px 0;
-    }
-    .portrait-halo {
-      position: absolute;
-      inset: -15px;
-      border-radius: 50% 50% 45% 45%;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.45) 0%, transparent 75%);
-      animation: pulseAura 3s infinite ease-in-out;
-      pointer-events: none;
-    }
-    @keyframes pulseAura {
-      0%, 100% { transform: scale(0.96); opacity: 0.6; }
-      50% { transform: scale(1.08); opacity: 1; }
-    }
-
-    .portrait-img {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50% 50% 45% 45%;
-      border: 3px solid var(--gold-main);
-      box-shadow: 0 0 0 3px #180307, 0 0 25px rgba(212, 175, 55, 0.7);
-      display: block;
-    }
-
-    .tap-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      color: var(--gold-light);
-      background: rgba(30, 4, 8, 0.9);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      padding: 5px 14px;
-      border-radius: var(--radius-full);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    }
-
-    /* ==========================================================================
-       INTERACTIVE STATS & BLESSING STRIP
-       ========================================================================== */
-    .quick-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-    .metric-box {
-      background: var(--surface-glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--surface-glass-border);
-      border-radius: var(--radius-md);
-      padding: 10px 8px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    }
-    .metric-value {
-      font-family: 'Cinzel', serif;
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--gold-light);
-      display: block;
-    }
-    .metric-label {
-      font-size: 0.62rem;
-      color: var(--text-3);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    /* ==========================================================================
-       INTERACTIVE MAYORDOMÍA & DEVOTIONAL SECTION
-       ========================================================================== */
-    .section-title-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 10px;
-    }
-    .section-title {
-      font-family: 'Cinzel', serif;
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: var(--gold-light);
-      letter-spacing: 1.5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-title::before {
-      content: "";
-      width: 4px;
-      height: 14px;
-      background: var(--crimson-accent);
-      border-radius: 2px;
-      box-shadow: 0 0 8px var(--crimson-accent);
-    }
-
-    /* Mayordomos Card */
-    .mayordomos-banner {
-      background: linear-gradient(135deg, rgba(48, 6, 14, 0.95) 0%, rgba(20, 2, 5, 0.98) 100%);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      border-radius: var(--radius-md);
-      padding: 12px;
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-      cursor: pointer;
-      transition: transform 0.2s var(--spring);
-    }
-    .mayordomos-banner:active {
-      transform: scale(0.98);
-    }
-    .mayordomos-thumb {
-      width: 68px;
-      height: 82px;
-      border-radius: var(--radius-sm);
-      object-fit: cover;
-      border: 2px solid var(--gold-main);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-      flex-shrink: 0;
-    }
-    .mayordomos-body {
-      flex: 1;
-      min-width: 0;
-    }
-    .mayordomos-tag {
-      font-family: 'Cinzel', serif;
-      font-size: 0.6rem;
-      color: var(--gold-main);
-      letter-spacing: 1.5px;
+      font-size: 0.68rem;
       font-weight: 700;
-    }
-    .mayordomos-name {
-      font-family: 'Cinzel', serif;
-      font-size: 0.92rem;
-      font-weight: 800;
       color: #fff;
-      margin: 2px 0 4px 0;
-    }
-    .mayordomos-desc {
-      font-size: 0.68rem;
-      color: var(--text-2);
-      line-height: 1.35;
-    }
-
-    /* ==========================================================================
-       VIRTUAL DEVOTIONAL CANDLE STATION (Interactive Hold-to-Light)
-       ========================================================================== */
-    .candle-station {
-      background: linear-gradient(135deg, rgba(28, 4, 9, 0.9) 0%, rgba(12, 1, 3, 0.95) 100%);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: var(--radius-md);
-      padding: 16px;
-      text-align: center;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    }
-    .candle-station-title {
-      font-family: 'Cinzel', serif;
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: var(--gold-light);
-      margin-bottom: 4px;
-    }
-    .candle-station-sub {
-      font-size: 0.68rem;
-      color: var(--text-3);
+      letter-spacing: 1.5px;
       margin-bottom: 16px;
     }
 
-    .candles-row {
-      display: flex;
-      justify-content: space-around;
-      gap: 8px;
-    }
-    .candle-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: transform 0.15s ease;
-    }
-    .candle-item:active {
-      transform: scale(0.92);
-    }
-    .candle-flame-wrapper {
+    /* Puertas del Retablo 3D */
+    .retablo-doors-wrapper {
       position: relative;
-      height: 22px;
+      width: 220px;
+      height: 290px;
+      margin: 0 auto 16px auto;
+      perspective: 1200px;
+      border-radius: 110px 110px 18px 18px;
+      background: #000;
+      box-shadow: 0 0 0 3px #180308, 0 0 0 5px var(--gold-300), 0 15px 40px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Santuario Interior (Imagen del Niño Felipito) */
+    .retablo-interior {
+      position: absolute;
+      inset: 0;
+      border-radius: 110px 110px 18px 18px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 35%, #420612 0%, #120104 100%);
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: center;
     }
-    .candle-flame {
-      width: 10px;
-      height: 18px;
-      background: radial-gradient(ellipse at 50% 80%, #ffffff 0%, #ffde59 40%, #ff5722 80%, transparent 100%);
-      border-radius: 50% 50% 25% 25%;
-      filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.95));
-      animation: flameWaver 1.4s infinite alternate ease-in-out;
-      transform-origin: center bottom;
-      transition: opacity 0.3s ease, filter 0.3s ease;
-    }
-    .candle-item.off .candle-flame {
-      opacity: 0;
-      filter: none;
-    }
-    @keyframes flameWaver {
-      0% { transform: scale(0.95) rotate(-3deg); }
-      50% { transform: scale(1.1) rotate(3deg); }
-      100% { transform: scale(1) rotate(-1deg); }
-    }
-    .candle-wax {
-      width: 18px;
-      height: 38px;
-      background: linear-gradient(90deg, #dfd2be 0%, #ffffff 50%, #b8ab94 100%);
-      border-radius: 3px 3px 1px 1px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-    }
-    .candle-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.62rem;
-      font-weight: 700;
-      color: var(--gold-light);
-    }
-
-    /* ==========================================================================
-       PROGRAMA OFICIAL: INTERACTIVE SLIDING TABS (Emil Kowalski Tabs)
-       ========================================================================== */
-    .tabs-wrapper {
-      position: relative;
-      display: flex;
-      background: rgba(30, 4, 8, 0.85);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: var(--radius-full);
-      padding: 4px;
-      margin-top: 4px;
-    }
-    .tab-slider {
-      position: absolute;
-      top: 4px;
-      bottom: 4px;
-      border-radius: var(--radius-full);
-      background: var(--gold-gradient);
-      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.6);
-      transition: all 0.35s var(--spring);
-      z-index: 1;
-    }
-    .tab-btn {
-      flex: 1;
-      position: relative;
-      z-index: 2;
-      padding: 8px 10px;
-      background: transparent;
-      border: none;
-      outline: none;
-      font-family: 'Cinzel', serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--text-2);
-      cursor: pointer;
-      text-align: center;
-      transition: color 0.25s ease;
-    }
-    .tab-btn.active {
-      color: #0c0103;
-      font-weight: 800;
-    }
-
-    /* Timeline Container */
-    .timeline-container {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 6px;
-    }
-    .timeline-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      background: var(--surface-glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--surface-glass-border);
-      border-radius: var(--radius-md);
-      padding: 10px 12px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-      transition: transform 0.2s var(--spring);
-    }
-    .timeline-item:active {
-      transform: scale(0.98);
-    }
-    .timeline-time-badge {
-      background: rgba(176, 16, 40, 0.35);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      padding: 4px 8px;
-      border-radius: var(--radius-sm);
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      font-weight: 800;
-      color: var(--gold-light);
-      flex-shrink: 0;
-    }
-    .timeline-content {
-      flex: 1;
-    }
-    .timeline-title {
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 2px;
-    }
-    .timeline-desc {
-      font-size: 0.65rem;
-      color: var(--text-2);
-      line-height: 1.35;
-    }
-
-    /* ==========================================================================
-       GALLERY & ARTISTAS: MOMENTUM SNAP CAROUSEL
-       ========================================================================== */
-    .carousel-wrap {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 8px;
-      margin: 4px -16px 0 -16px;
-      padding-left: 16px;
-      padding-right: 16px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .carousel-wrap::-webkit-scrollbar {
-      display: none;
-    }
-    .carousel-card {
-      flex: 0 0 240px;
-      scroll-snap-align: start;
-      background: linear-gradient(135deg, rgba(38, 5, 12, 0.95), rgba(16, 2, 5, 0.98));
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-      cursor: pointer;
-      transition: transform 0.2s var(--spring);
-    }
-    .carousel-card:active {
-      transform: scale(0.97);
-    }
-    .carousel-card-img {
+    .sacred-image {
       width: 100%;
-      height: 130px;
+      height: 100%;
       object-fit: cover;
       display: block;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      filter: contrast(1.08) brightness(1.02);
+      transition: transform 0.4s var(--spring);
     }
-    .carousel-card-body {
-      padding: 10px 12px;
+    .sacred-rays {
+      position: absolute;
+      inset: -40px;
+      background: conic-gradient(from 0deg, rgba(212, 175, 55, 0.25) 0deg 20deg, transparent 20deg 40deg, rgba(212, 175, 55, 0.25) 40deg 60deg, transparent 60deg 80deg, rgba(212, 175, 55, 0.25) 80deg 100deg, transparent 100deg 120deg, rgba(212, 175, 55, 0.25) 120deg 140deg, transparent 140deg 160deg, rgba(212, 175, 55, 0.25) 160deg 180deg, transparent 180deg 200deg, rgba(212, 175, 55, 0.25) 200deg 220deg, transparent 220deg 240deg, rgba(212, 175, 55, 0.25) 240deg 260deg, transparent 260deg 280deg, rgba(212, 175, 55, 0.25) 280deg 300deg, transparent 300deg 320deg, rgba(212, 175, 55, 0.25) 320deg 340deg, transparent 340deg 360deg);
+      border-radius: 50%;
+      animation: spinRays 30s linear infinite;
+      pointer-events: none;
     }
-    .carousel-card-tag {
-      font-family: 'Cinzel', serif;
-      font-size: 0.58rem;
-      color: var(--gold-main);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-    .carousel-card-title {
-      font-family: 'Cinzel', serif;
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #fff;
-      margin: 2px 0;
-    }
-    .carousel-card-sub {
-      font-size: 0.64rem;
-      color: var(--text-2);
-      line-height: 1.3;
+    @keyframes spinRays {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    /* ==========================================================================
-       HONOR ROLL (Cuadro de Honor de Padrinos)
-       ========================================================================== */
-    .honor-grid {
+    /* Hojas de la Puerta Izquierda y Derecha */
+    .door {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      background: linear-gradient(135deg, #300612 0%, #150205 100%);
+      border: 1px solid var(--gold-300);
+      z-index: 10;
+      transition: transform 0.85s var(--spring-bouncy);
+      transform-style: preserve-3d;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-    }
-    .honor-card {
-      background: var(--surface-glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--surface-glass-border);
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      padding: 10px;
     }
-    .honor-meta {
-      flex: 1;
+    .door-left {
+      left: 0;
+      border-radius: 110px 0 0 18px;
+      transform-origin: left center;
+      border-right: 1px solid var(--gold-200);
     }
-    .honor-role {
-      font-family: 'Cinzel', serif;
-      font-size: 0.6rem;
-      color: var(--gold-main);
-      letter-spacing: 1px;
-      font-weight: 700;
+    .door-right {
+      right: 0;
+      border-radius: 0 110px 18px 0;
+      transform-origin: right center;
+      border-left: 1px solid var(--gold-200);
     }
-    .honor-person {
-      font-family: 'Cinzel', serif;
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #fff;
-      margin: 1px 0;
-    }
-    .honor-city {
-      font-size: 0.62rem;
-      color: var(--text-3);
-    }
-    .honor-badge {
+    .door-symbol {
       width: 32px;
       height: 32px;
+      border: 1px solid var(--gold-200);
       border-radius: 50%;
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid var(--gold-main);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 0.9rem;
-      flex-shrink: 0;
+      color: var(--gold-200);
+      margin-bottom: 6px;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    }
+    .door-text {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      color: var(--gold-100);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+    }
+
+    /* Estado Abierto del Retablo */
+    .retablo-open .door-left {
+      transform: rotateY(-130deg);
+      box-shadow: -10px 0 25px rgba(0, 0, 0, 0.9);
+    }
+    .retablo-open .door-right {
+      transform: rotateY(130deg);
+      box-shadow: 10px 0 25px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Botón de Apertura / Bendición */
+    .door-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 18px;
+      background: var(--gold-gradient);
+      color: #0c0103;
+      border: 1px solid #fff;
+      border-radius: 9999px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 0 22px rgba(212, 175, 55, 0.75);
+      transition: transform 0.2s var(--spring);
+    }
+    .door-toggle-btn:active {
+      transform: scale(0.93);
     }
 
     /* ==========================================================================
-       BOTTOM FLOATING DOCK (Emil Kowalski Dock / Sonner Stack)
+       BARRA DE CONTROLES DEVOCIONALES EN TIEMPO REAL
+       ========================================================================== */
+    .altar-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .altar-tool {
+      background: rgba(30, 4, 9, 0.85);
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      padding: 10px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.2s var(--spring);
+    }
+    .altar-tool:active {
+      transform: scale(0.92);
+      border-color: var(--gold-200);
+    }
+    .altar-tool-icon {
+      font-size: 1.3rem;
+    }
+    .altar-tool-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: var(--gold-100);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ==========================================================================
+       SELECTOR DE EXPERIENCIAS (TABS LINEAR)
+       ========================================================================== */
+    .view-switcher {
+      display: flex;
+      background: rgba(22, 3, 7, 0.9);
+      border: 1px solid var(--border-gold);
+      border-radius: 9999px;
+      padding: 4px;
+      margin-top: 4px;
+    }
+    .view-btn {
+      flex: 1;
+      padding: 8px 6px;
+      background: transparent;
+      border: none;
+      border-radius: 9999px;
+      color: #dfba54;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.25s var(--spring);
+      outline: none;
+    }
+    .view-btn.active {
+      background: var(--gold-gradient);
+      color: #0c0103;
+      font-weight: 800;
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.6);
+    }
+
+    /* Paneles de Contenido */
+    .panel-view {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      animation: fadeIn 0.35s var(--spring) forwards;
+    }
+    .panel-view.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       PANEL 1: EL VIAJE DEL FESTEJO (PROGRAMA CINEMÁTICO EN 3 ACTOS)
+       ========================================================================== */
+    .act-card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(38, 5, 12, 0.94) 0%, rgba(15, 2, 5, 0.98) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    .act-header {
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, rgba(140, 10, 29, 0.6) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    }
+    .act-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--gold-200);
+      letter-spacing: 1.5px;
+    }
+    .act-date {
+      background: var(--red-baroque);
+      border: 1px solid var(--gold-300);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+    }
+    .act-body {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .act-milestone {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+    }
+    .act-time {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--gold-200);
+      width: 62px;
+      flex-shrink: 0;
+    }
+    .act-desc {
+      font-size: 0.7rem;
+      color: #eed8b8;
+      line-height: 1.35;
+    }
+    .act-desc strong {
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       PANEL 2: RETABLO DE ARTISTAS Y DANZAS PATRIMONIALES (FOTOS REALES)
+       ========================================================================== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .gallery-tile {
+      background: linear-gradient(145deg, rgba(34, 4, 10, 0.92) 0%, rgba(14, 1, 4, 0.96) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s var(--spring);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    }
+    .gallery-tile:active {
+      transform: scale(0.97);
+    }
+    .gallery-tile-img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+    }
+    .gallery-tile-info {
+      padding: 8px 10px;
+    }
+    .gallery-tile-category {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      color: var(--gold-300);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .gallery-tile-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      margin-top: 1px;
+    }
+
+    /* Mayordomos Full Plaque */
+    .mayordomos-plaque {
+      background: linear-gradient(135deg, rgba(50, 6, 15, 0.95) 0%, rgba(18, 2, 5, 0.98) 100%);
+      border: 1.5px solid var(--gold-300);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    }
+    .mayordomos-photo {
+      width: 72px;
+      height: 88px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid var(--gold-200);
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
+    }
+
+    /* ==========================================================================
+       PANEL 3: MURO DE PLEGARIAS INTERACTIVO (Live Devotional Book)
+       ========================================================================== */
+    .prayer-form-card {
+      background: rgba(30, 4, 9, 0.9);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .prayer-input {
+      width: 100%;
+      background: rgba(12, 1, 3, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.75rem;
+      outline: none;
+    }
+    .prayer-input:focus {
+      border-color: var(--gold-200);
+    }
+    .prayer-submit-btn {
+      padding: 10px;
+      background: var(--gold-gradient);
+      border: 1px solid #fff;
+      border-radius: 8px;
+      color: #0c0103;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    }
+
+    .prayers-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .prayer-item {
+      background: rgba(24, 3, 7, 0.8);
+      border-left: 3px solid var(--gold-300);
+      border-radius: 0 8px 8px 0;
+      padding: 8px 10px;
+      font-size: 0.68rem;
+    }
+    .prayer-author {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: var(--gold-200);
+      margin-bottom: 2px;
+    }
+    .prayer-text {
+      color: #eed8b8;
+      font-style: italic;
+    }
+
+    /* ==========================================================================
+       DOCK INFERIOR FLOTANTE CON ACCESO RÁPIDO
        ========================================================================== */
     .floating-dock {
       position: fixed;
-      bottom: 16px;
+      bottom: 14px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 500;
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 12px;
-      background: var(--surface-glass);
+      padding: 8px 14px;
+      background: var(--bg-glass);
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
-      border: 1px solid var(--surface-glass-border);
-      border-radius: var(--radius-full);
-      box-shadow: 
-        0 18px 45px rgba(0, 0, 0, 0.85),
-        0 0 25px rgba(212, 175, 55, 0.25),
-        inset 0 1px 1px rgba(255, 245, 192, 0.4);
-      width: calc(100% - 32px);
-      max-width: 460px;
+      border: 1px solid var(--border-gold);
+      border-radius: 9999px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.25);
+      width: calc(100% - 28px);
+      max-width: 440px;
     }
-
-    .dock-btn {
+    .dock-act-btn {
       flex: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
       padding: 10px 8px;
-      background: rgba(38, 5, 12, 0.9);
+      background: rgba(36, 4, 11, 0.85);
       border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: var(--radius-full);
-      color: var(--gold-light);
+      border-radius: 9999px;
+      color: var(--gold-100);
       font-family: 'Cinzel', serif;
       font-size: 0.68rem;
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
       transition: all 0.2s var(--spring);
       outline: none;
     }
-    .dock-btn:active {
+    .dock-act-btn:active {
       transform: scale(0.92);
     }
-    .dock-btn.primary {
+    .dock-act-btn.primary {
       background: var(--gold-gradient);
       color: #0c0103;
       border-color: #fff;
       font-weight: 800;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.6);
     }
-    .dock-btn.wsp {
-      background: linear-gradient(135deg, #1aa34a 0%, #10632d 100%);
+    .dock-act-btn.wsp {
+      background: linear-gradient(135deg, #1aa34a 0%, #0d5f2a 100%);
       border-color: #48e67f;
       color: #fff;
       font-weight: 800;
     }
 
     /* ==========================================================================
-       SONNER TOASTS NOTIFICATIONS
+       SONNER TOASTS & MODAL LIGHTBOX
        ========================================================================== */
-    .toast-tray {
+    .toast-box {
       position: fixed;
-      top: 74px;
+      top: 68px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10000;
@@ -806,15 +732,15 @@
       align-items: center;
       gap: 6px;
       pointer-events: none;
-      width: calc(100% - 32px);
-      max-width: 420px;
+      width: 90%;
+      max-width: 400px;
     }
-    .toast {
-      background: rgba(22, 3, 7, 0.95);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--gold-main);
-      border-radius: var(--radius-full);
+    .toast-msg {
+      background: rgba(22, 2, 6, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--gold-200);
+      border-radius: 9999px;
       padding: 8px 16px;
       display: flex;
       align-items: center;
@@ -822,32 +748,30 @@
       color: #fff;
       font-family: 'Cinzel', serif;
       font-size: 0.72rem;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.4);
-      animation: toastEnter 0.35s var(--spring-bounce) forwards;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.5);
+      animation: popIn 0.35s var(--spring-bouncy) forwards;
       pointer-events: auto;
     }
-    @keyframes toastEnter {
+    @keyframes popIn {
       0% { opacity: 0; transform: translateY(-16px) scale(0.92); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .toast.leave {
-      animation: toastLeave 0.3s var(--spring) forwards;
+    .toast-msg.fade {
+      animation: popOut 0.3s var(--spring) forwards;
     }
-    @keyframes toastLeave {
-      0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-16px) scale(0.92); }
+    @keyframes popOut {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-12px); }
     }
 
-    /* ==========================================================================
-       MODAL / LIGHTBOX
-       ========================================================================== */
-    .modal-backdrop {
+    /* Modal */
+    .lightbox {
       position: fixed;
       inset: 0;
-      background: rgba(6, 1, 2, 0.92);
+      background: rgba(5, 1, 2, 0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      z-index: 12000;
+      z-index: 20000;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -857,42 +781,42 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
-    .modal-backdrop.open {
+    .lightbox.active {
       opacity: 1;
       pointer-events: auto;
     }
-    .modal-window {
+    .lightbox-card {
       position: relative;
       max-width: 100%;
       max-height: 85vh;
-      border-radius: var(--radius-lg);
-      border: 2px solid var(--gold-main);
+      border-radius: 18px;
+      border: 2px solid var(--gold-200);
       overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(212, 175, 55, 0.6);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 40px rgba(212, 175, 55, 0.5);
       transform: scale(0.92);
-      transition: transform 0.35s var(--spring-bounce);
+      transition: transform 0.35s var(--spring-bouncy);
     }
-    .modal-backdrop.open .modal-window {
+    .lightbox.active .lightbox-card {
       transform: scale(1);
     }
-    .modal-img {
+    .lightbox-img {
       width: 100%;
       height: 100%;
-      max-height: 65vh;
+      max-height: 68vh;
       object-fit: contain;
       background: #000;
       display: block;
     }
-    .modal-desc {
-      background: rgba(20, 2, 5, 0.95);
+    .lightbox-desc {
+      background: rgba(18, 2, 5, 0.96);
       border-top: 1px solid rgba(212, 175, 55, 0.3);
-      padding: 12px 16px;
+      padding: 10px 14px;
       text-align: center;
       font-family: 'Cinzel', serif;
-      font-size: 0.78rem;
-      color: var(--gold-light);
+      font-size: 0.75rem;
+      color: var(--gold-100);
     }
-    .modal-close-btn {
+    .lightbox-close {
       position: absolute;
       top: 14px;
       right: 14px;
@@ -900,641 +824,752 @@
       height: 36px;
       border-radius: 50%;
       background: rgba(20, 2, 5, 0.85);
-      border: 1px solid var(--gold-main);
+      border: 1px solid var(--gold-200);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       font-size: 1.1rem;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
     }
   </style>
 </head>
 <body>
 
-  <!-- Ambient Glow & Spotlight Background -->
-  <div class="ambient-glow"></div>
+  <!-- Canvas de Cielo Estrellado Andino -->
+  <canvas id="skyCanvas"></canvas>
+
+  <!-- Canvas de Fuegos Artificiales y Chispas Sagradas -->
+  <canvas id="fxCanvas"></canvas>
+
+  <!-- Ambient Glow -->
+  <div class="temple-glow"></div>
 
   <!-- Audio de Banda Monumental Local -->
   <audio id="bandaAudio" preload="auto" loop>
     <source src="banda.mp3" type="audio/mp3">
   </audio>
 
-  <!-- Fireworks Particle Canvas -->
-  <canvas id="fireworksCanvas"></canvas>
+  <!-- Stack de Toasts Sonner -->
+  <div class="toast-box" id="toastBox"></div>
 
-  <!-- Toast Notification Stack -->
-  <div class="toast-tray" id="toastTray"></div>
-
-  <!-- Modal Lightbox -->
-  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
-    <div class="modal-close-btn" onclick="closeModal(event)">✕</div>
-    <div class="modal-window">
-      <img id="modalImg" class="modal-img" src="" alt="Ampliación">
-      <div id="modalDesc" class="modal-desc"></div>
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-close" onclick="closeLightbox(event)">✕</div>
+    <div class="lightbox-card">
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Ampliación">
+      <div id="lightboxDesc" class="lightbox-desc"></div>
     </div>
   </div>
 
-  <!-- MAIN APP CONTAINER -->
-  <div class="app-wrap">
+  <!-- CONTENEDOR PRINCIPAL DE LA APP -->
+  <div class="app-container">
 
-    <!-- FLOATING TOP HEADER -->
-    <header class="top-header">
-      <div class="brand-mark">
-        <div class="brand-icon">✦</div>
-        <div class="brand-title">LARMENTA 2026</div>
+    <!-- BARRA SUPERIOR DINÁMICA -->
+    <header class="temple-nav">
+      <div class="temple-brand">
+        <div class="temple-crest">✦</div>
+        <div class="temple-brand-text">LARMENTA 2026</div>
       </div>
-      <div class="header-actions">
-        <button class="action-pill" id="btnAudio" onclick="toggleAudio()">
-          <span class="audio-eq">
+      <div class="temple-actions">
+        <button class="pill-btn" id="btnBanda" onclick="toggleBanda()">
+          <span class="eq-bars">
             <span></span>
             <span></span>
             <span></span>
           </span>
-          <span id="audioTxt">Banda</span>
+          <span id="txtBanda">Banda</span>
         </button>
-        <button class="action-pill" onclick="sonarCampana()">
+        <button class="pill-btn" onclick="sonarCampana()">
           🔔 Campana
-        </button>
-        <button class="action-pill" onclick="quemarCastillo()">
-          🎆 Castillo
         </button>
       </div>
     </header>
 
-    <!-- HERO: 3D HOLOGRAPHIC SACRED PATRON CARD -->
-    <section class="hero-card-container">
-      <div class="hologram-card" id="hologramCard" onclick="tocarPatron(event)">
-        <div class="hero-badge">✦ FESTIVIDAD PATRONAL OFICIAL ✦</div>
-        <h1 class="hero-h1">Niño Felipito</h1>
-        <div class="hero-location">PATRÓN DE LARMENTA • IZCUCHACA • HUANCAVELICA</div>
+    <!-- HERO CENTRAL: EL RETABLO SAGRADO ANDINO CON PUERTAS 3D -->
+    <section class="retablo-scene">
+      <div class="retablo-frame" id="retabloFrame">
+        <div class="retablo-header-crest">SANTUARIO VIRTUAL • FE Y TRADICIÓN</div>
+        <h1 class="retablo-main-title">Niño Felipito</h1>
+        <div class="retablo-subtitle">PATRÓN DE LARMENTA • IZCUCHACA • HUANCAVELICA</div>
 
-        <!-- Real Sacred Image of Niño Felipito -->
-        <div class="portrait-wrap">
-          <div class="portrait-halo"></div>
-          <img class="portrait-img" src="images/nino_patron.jpg" alt="Santísimo Niño Felipito de Larmenta">
+        <!-- Escenario de Puertas 3D -->
+        <div class="retablo-doors-wrapper" id="doorsWrapper" onclick="toggleRetablo()">
+          <!-- Interior con la Foto Sagrada -->
+          <div class="retablo-interior">
+            <div class="sacred-rays"></div>
+            <img class="sacred-image" src="images/nino_patron.jpg" alt="Santísimo Niño Felipito">
+          </div>
+
+          <!-- Puerta Izquierda -->
+          <div class="door door-left" id="doorLeft">
+            <div class="door-symbol">✝</div>
+            <div class="door-text">SANTÍSIMO PATRÓN</div>
+          </div>
+
+          <!-- Puerta Derecha -->
+          <div class="door door-right" id="doorRight">
+            <div class="door-symbol">✦</div>
+            <div class="door-text">LARMENTA 2026</div>
+          </div>
         </div>
 
-        <div class="tap-hint">
-          ✨ Toca el altar para recibir bendición
+        <button class="door-toggle-btn" onclick="toggleRetablo()">
+          <span id="btnRetabloTxt">✨ Toca para Abrir las Puertas Sagradas</span>
+        </button>
+
+        <!-- Barra de Acciones Sagradas en Vivo -->
+        <div class="altar-actions-grid">
+          <div class="altar-tool" onclick="ofrendarFlores()">
+            <span class="altar-tool-icon">🌸</span>
+            <span class="altar-tool-label">Flores</span>
+          </div>
+          <div class="altar-tool" onclick="encenderVela()">
+            <span class="altar-tool-icon">🕯️</span>
+            <span class="altar-tool-label">Veladora</span>
+          </div>
+          <div class="altar-tool" onclick="sonarDiana()">
+            <span class="altar-tool-icon">🎺</span>
+            <span class="altar-tool-label">Diana</span>
+          </div>
+          <div class="altar-tool" onclick="encenderCastillo()">
+            <span class="altar-tool-icon">🎆</span>
+            <span class="altar-tool-label">Castillo</span>
+          </div>
         </div>
+
       </div>
     </section>
 
-    <!-- QUICK METRICS & COUNTDOWN BAR -->
-    <section class="quick-metrics">
-      <div class="metric-box">
-        <span class="metric-value">24-26</span>
-        <span class="metric-label">Diciembre</span>
-      </div>
-      <div class="metric-box">
-        <span class="metric-value" id="blessingCount">1,482</span>
-        <span class="metric-label">Devotos</span>
-      </div>
-      <div class="metric-box">
-        <span class="metric-value">10</span>
-        <span class="metric-label">Cuerpos Castillo</span>
-      </div>
-    </section>
+    <!-- SELECTOR DE PANELES (LINEAR TABS) -->
+    <nav class="view-switcher">
+      <button class="view-btn active" onclick="switchView('programa', this)">📜 Programa</button>
+      <button class="view-btn" onclick="switchView('danzas', this)">🎭 Danzas & Banda</button>
+      <button class="view-btn" onclick="switchView('mayordomia', this)">🎖️ Mayordomía</button>
+      <button class="view-btn" onclick="switchView('plegarias', this)">✍️ Plegarias</button>
+    </nav>
 
-    <!-- MAYORDOMOS OFICIALES 2026 -->
-    <section>
-      <div class="section-title-wrap">
-        <h2 class="section-title">MAYORDOMÍA DE GALA 2026</h2>
-      </div>
-      <div class="mayordomos-banner" onclick="openModal('images/mayordomos_real.jpg', 'Mayordomos Oficiales 2026 de la Festividad Niño Felipito')">
-        <img class="mayordomos-thumb" src="images/mayordomos_real.jpg" alt="Mayordomos 2026">
-        <div class="mayordomos-body">
-          <div class="mayordomos-tag">OFRECIMIENTO Y FE</div>
-          <div class="mayordomos-name">Felipe y Familiares Mayordomos</div>
-          <div class="mayordomos-desc">
-            Abriendo los brazos de Larmenta para recibir con amor a todos los residentes e hijos devotos en el Perú y el mundo.
+    <!-- PANEL 1: PROGRAMA OFICIAL EN 3 ACTOS -->
+    <div class="panel-view active" id="view-programa">
+      <!-- Acto 1 -->
+      <article class="act-card">
+        <div class="act-header">
+          <span class="act-tag">ACTO I: VÍSPERA TRADICIONAL</span>
+          <span class="act-date">24 DIC</span>
+        </div>
+        <div class="act-body">
+          <div class="act-milestone">
+            <span class="act-time">06:00 AM</span>
+            <span class="act-desc">Salva de <strong>21 Camaretazos</strong> rompiendo el alba andina.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">10:00 AM</span>
+            <span class="act-desc">Recepción solemne de la <strong>Gran Banda Monumental</strong> en la portada.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">02:30 PM</span>
+            <span class="act-desc">Entrada de leña, víveres y chamiza con cuadrillas de Pascuas.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">07:30 PM</span>
+            <span class="act-desc">Solemne <strong>Misa de Vísperas</strong> en honor al Niño Felipito.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">09:30 PM</span>
+            <span class="act-desc">Quema del <strong>Gran Castillo de 10 Cuerpos</strong> y Noche de Calientito.</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Acto 2 -->
+      <article class="act-card">
+        <div class="act-header">
+          <span class="act-tag">ACTO II: DÍA CENTRAL Y PROCESIÓN</span>
+          <span class="act-date">25 DIC</span>
+        </div>
+        <div class="act-body">
+          <div class="act-milestone">
+            <span class="act-time">07:00 AM</span>
+            <span class="act-desc">Diana Floreada por las principales calles de Larmenta.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">10:30 AM</span>
+            <span class="act-desc"><strong>Misa Solemne Central de Fiesta</strong> con coros y autoridades.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">12:00 PM</span>
+            <span class="act-desc"><strong>Solemne Procesión</strong> del Santo Patrón por el perímetro de la plaza.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">01:30 PM</span>
+            <span class="act-desc"><strong>Gran Almuerzo de Confraternidad</strong> ofrecido por los mayordomos.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">04:00 PM</span>
+            <span class="act-desc">Gran Baile Popular y competencia de zapateo de <strong>Huayligía</strong>.</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Acto 3 -->
+      <article class="act-card">
+        <div class="act-header">
+          <span class="act-tag">ACTO III: DESPACHO Y TRASPASO</span>
+          <span class="act-date">26 DIC</span>
+        </div>
+        <div class="act-body">
+          <div class="act-milestone">
+            <span class="act-time">10:00 AM</span>
+            <span class="act-desc">Misa de Acción de Gracias de la Mayordomía 2026.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">01:00 PM</span>
+            <span class="act-desc"><strong>Entrega de Vara Sagrada y Cargo</strong> a los Mayordomos 2027.</span>
+          </div>
+          <div class="act-milestone">
+            <span class="act-time">03:30 PM</span>
+            <span class="act-desc">Tradicional <strong>Gran Cortamonte (Yunza)</strong> y despedida de Banda.</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- PANEL 2: DANZAS, BANDA Y ARTISTAS (FOTOS REALES) -->
+    <div class="panel-view" id="view-danzas">
+      <div class="gallery-grid">
+        <div class="gallery-tile" onclick="openPhoto('images/danzante_huayligia.jpg', 'Danza Sagrada de Huayligía de Larmenta')">
+          <img class="gallery-tile-img" src="images/danzante_huayligia.jpg" alt="Huayligía">
+          <div class="gallery-tile-info">
+            <div class="gallery-tile-category">Tradición Viva</div>
+            <div class="gallery-tile-title">Danza de Huayligía</div>
+          </div>
+        </div>
+
+        <div class="gallery-tile" onclick="openPhoto('images/danzante_abuelo.jpg', 'Cuadrilla de Abuelitos y Pascuas')">
+          <img class="gallery-tile-img" src="images/danzante_abuelo.jpg" alt="Abuelitos">
+          <div class="gallery-tile-info">
+            <div class="gallery-tile-category">Costumbre Ancestral</div>
+            <div class="gallery-tile-title">Danzantes Abuelitos</div>
+          </div>
+        </div>
+
+        <div class="gallery-tile" onclick="openPhoto('images/banda_artistas.jpg', 'Gran Banda Monumental de Músicos del Centro')">
+          <img class="gallery-tile-img" src="images/banda_artistas.jpg" alt="Banda">
+          <div class="gallery-tile-info">
+            <div class="gallery-tile-category">Música de Gala</div>
+            <div class="gallery-tile-title">Banda Monumental</div>
+          </div>
+        </div>
+
+        <div class="gallery-tile" onclick="openPhoto('images/cantantes_artistas.jpg', 'Voces Folclóricas Estelares')">
+          <img class="gallery-tile-img" src="images/cantantes_artistas.jpg" alt="Cantantes">
+          <div class="gallery-tile-info">
+            <div class="gallery-tile-category">Folclore en Vivo</div>
+            <div class="gallery-tile-title">Voces Estelares</div>
+          </div>
+        </div>
+
+        <div class="gallery-tile" onclick="openPhoto('images/grupo_cumbia.jpg', 'Gran Fiesta y Cortamonte con Orquesta')">
+          <img class="gallery-tile-img" src="images/grupo_cumbia.jpg" alt="Cumbia">
+          <div class="gallery-tile-info">
+            <div class="gallery-tile-category">Baile de Cierre</div>
+            <div class="gallery-tile-title">Orquesta & Cumbia</div>
+          </div>
+        </div>
+
+        <div class="gallery-tile" onclick="openPhoto('images/pueblo_fondo.jpg', 'Vista panorámica de la colina de Larmenta, Izcuchaca')">
+          <img class="gallery-tile-img" src="images/pueblo_fondo.jpg" alt="Larmenta">
+          <div class="gallery-tile-info">
+            <div class="gallery-tile-category">Nuestra Tierra</div>
+            <div class="gallery-tile-title">Colina de Larmenta</div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- VIRTUAL CANDLE STATION -->
-    <section class="candle-station">
-      <div class="candle-station-title">ALTAR DE VELADORAS VIRTUALES</div>
-      <div class="candle-station-sub">Toca para encender una vela con tu plegaria</div>
-
-      <div class="candles-row">
-        <div class="candle-item" onclick="toggleCandle(this, 'Salud para todos los hogares')">
-          <div class="candle-flame-wrapper">
-            <div class="candle-flame"></div>
-          </div>
-          <div class="candle-wax"></div>
-          <div class="candle-label">Salud</div>
-        </div>
-        <div class="candle-item" onclick="toggleCandle(this, 'Paz y unión familiar')">
-          <div class="candle-flame-wrapper">
-            <div class="candle-flame"></div>
-          </div>
-          <div class="candle-wax"></div>
-          <div class="candle-label">Paz</div>
-        </div>
-        <div class="candle-item" onclick="toggleCandle(this, 'Bendición para los residentes en Lima y Huancayo')">
-          <div class="candle-flame-wrapper">
-            <div class="candle-flame"></div>
-          </div>
-          <div class="candle-wax"></div>
-          <div class="candle-label">Residentes</div>
-        </div>
-        <div class="candle-item" onclick="toggleCandle(this, 'Prosperidad en el trabajo y cosechas')">
-          <div class="candle-flame-wrapper">
-            <div class="candle-flame"></div>
-          </div>
-          <div class="candle-wax"></div>
-          <div class="candle-label">Cosechas</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROGRAMA OFICIAL: INTERACTIVE SLIDING TABS -->
-    <section>
-      <div class="section-title-wrap">
-        <h2 class="section-title">PROGRAMA OFICIAL</h2>
-      </div>
-
-      <div class="tabs-wrapper" id="tabsWrapper">
-        <div class="tab-slider" id="tabSlider"></div>
-        <button class="tab-btn active" onclick="switchDay(0, this)">24 DIC • Víspera</button>
-        <button class="tab-btn" onclick="switchDay(1, this)">25 DIC • Central</button>
-        <button class="tab-btn" onclick="switchDay(2, this)">26 DIC • Despacho</button>
-      </div>
-
-      <!-- Timeline Items -->
-      <div class="timeline-container" id="timelineContent">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
-    <!-- ARTISTAS Y DANZANTES: SNAP CAROUSEL -->
-    <section>
-      <div class="section-title-wrap">
-        <h2 class="section-title">CARTELERA ARTÍSTICA Y COSTUMBRE</h2>
-      </div>
-
-      <div class="carousel-wrap">
-        <!-- Card 1: Banda -->
-        <div class="carousel-card" onclick="openModal('images/banda_artistas.jpg', 'Gran Banda Monumental de Músicos del Centro')">
-          <img class="carousel-card-img" src="images/banda_artistas.jpg" alt="Banda Monumental">
-          <div class="carousel-card-body">
-            <div class="carousel-card-tag">Música de Fiesta</div>
-            <div class="carousel-card-title">Gran Banda Monumental</div>
-            <div class="carousel-card-sub">Acompañando dianas, procesiones y tardes taurinas</div>
-          </div>
-        </div>
-
-        <!-- Card 2: Cantantes -->
-        <div class="carousel-card" onclick="openModal('images/cantantes_artistas.jpg', 'Voces estelares de la música folclórica')">
-          <img class="carousel-card-img" src="images/cantantes_artistas.jpg" alt="Artistas Folclóricas">
-          <div class="carousel-card-body">
-            <div class="carousel-card-tag">Folclore de Gala</div>
-            <div class="carousel-card-title">Voces del Folclore</div>
-            <div class="carousel-card-sub">Gran concierto de gala en honor al Niño Patrón</div>
-          </div>
-        </div>
-
-        <!-- Card 3: Huayligía -->
-        <div class="carousel-card" onclick="openModal('images/danzante_huayligia.jpg', 'Danzante tradicional de Huayligía de Larmenta')">
-          <img class="carousel-card-img" src="images/danzante_huayligia.jpg" alt="Huayligía">
-          <div class="carousel-card-body">
-            <div class="carousel-card-tag">Patrimonio Vivo</div>
-            <div class="carousel-card-title">Danza de Huayligía</div>
-            <div class="carousel-card-sub">Elegancia, zapateo y fe tradicional larmentina</div>
-          </div>
-        </div>
-
-        <!-- Card 4: Abuelitos -->
-        <div class="carousel-card" onclick="openModal('images/danzante_abuelo.jpg', 'Danzante tradicional de Abuelitos de Larmenta')">
-          <img class="carousel-card-img" src="images/danzante_abuelo.jpg" alt="Abuelitos">
-          <div class="carousel-card-body">
-            <div class="carousel-card-tag">Tradición Ancestral</div>
-            <div class="carousel-card-title">Cuadrilla de Abuelitos</div>
-            <div class="carousel-card-sub">Alegres comparsas recorriendo el pueblo</div>
-          </div>
-        </div>
-
-        <!-- Card 5: Cumbia -->
-        <div class="carousel-card" onclick="openModal('images/grupo_cumbia.jpg', 'Gran Grupo de Cumbia y Baile Popular')">
-          <img class="carousel-card-img" src="images/grupo_cumbia.jpg" alt="Grupo de Cumbia">
-          <div class="carousel-card-body">
-            <div class="carousel-card-tag">Baile Popular</div>
-            <div class="carousel-card-title">Cumbia & Cortamonte</div>
-            <div class="carousel-card-sub">Gran fiesta bailable de despedida del 26 de Dic</div>
-          </div>
-        </div>
-
-        <!-- Card 6: Pueblo -->
-        <div class="carousel-card" onclick="openModal('images/pueblo_fondo.jpg', 'Larmenta Izcuchaca, Huancavelica')">
-          <img class="carousel-card-img" src="images/pueblo_fondo.jpg" alt="Larmenta">
-          <div class="carousel-card-body">
-            <div class="carousel-card-tag">Tierra Querida</div>
-            <div class="carousel-card-title">Colina de Larmenta</div>
-            <div class="carousel-card-sub">Izcuchaca, cuna de devoción y cultura andina</div>
+    <!-- PANEL 3: MAYORDOMÍA Y CUADRO DE HONOR -->
+    <div class="panel-view" id="view-mayordomia">
+      <div class="mayordomos-plaque" onclick="openPhoto('images/mayordomos_real.jpg', 'Mayordomos Oficiales 2026 de la Festividad Niño Felipito')">
+        <img class="mayordomos-photo" src="images/mayordomos_real.jpg" alt="Mayordomos 2026">
+        <div>
+          <div style="font-family: 'Cinzel', serif; font-size: 0.6rem; color: var(--gold-200); font-weight: 700; letter-spacing: 1.5px;">MAYORDOMÍA DE GALA 2026</div>
+          <div style="font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 800; color: #fff; margin: 2px 0;">Felipe y Familiares Mayordomos</div>
+          <div style="font-size: 0.68rem; color: #eed8b8; line-height: 1.35;">
+            "Con devoción y corazón larmentino, recibimos a todos los devotos y comparsas en nuestra colina sagrada."
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- CUADRO DE HONOR DE PADRINOS -->
-    <section>
-      <div class="section-title-wrap">
-        <h2 class="section-title">CUADRO DE HONOR DE PADRINOS</h2>
-      </div>
-
-      <div class="honor-grid">
-        <div class="honor-card">
-          <div class="honor-meta">
-            <div class="honor-role">Padrino de Misa Solemne Central</div>
-            <div class="honor-person">Familia Quispe Santamaría</div>
-            <div class="honor-city">Residentes en Huancayo</div>
-          </div>
-          <div class="honor-badge">⛪</div>
+      <!-- Cuadro de Padrinos -->
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="background: rgba(30, 4, 9, 0.85); border: 1px solid var(--border-gold); border-radius: 12px; padding: 10px 14px;">
+          <div style="font-family: 'Cinzel', serif; font-size: 0.58rem; color: var(--gold-300); font-weight: 700;">PADRINO DE MISA SOLEMNE CENTRAL</div>
+          <div style="font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 800; color: #fff;">Familia Quispe Santamaría</div>
+          <div style="font-size: 0.62rem; color: #eed8b8;">Residentes en Huancayo</div>
         </div>
 
-        <div class="honor-card">
-          <div class="honor-meta">
-            <div class="honor-role">Padrino de Castillo Pirotécnico (10 Cuerpos)</div>
-            <div class="honor-person">Sr. Carlos Huamán Espinoza y Familia</div>
-            <div class="honor-city">Lima - Ate Vitarte</div>
-          </div>
-          <div class="honor-badge">🎆</div>
+        <div style="background: rgba(30, 4, 9, 0.85); border: 1px solid var(--border-gold); border-radius: 12px; padding: 10px 14px;">
+          <div style="font-family: 'Cinzel', serif; font-size: 0.58rem; color: var(--gold-300); font-weight: 700;">PADRINO DE CASTILLO PIROTÉCNICO (10 CUERPOS)</div>
+          <div style="font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 800; color: #fff;">Sr. Carlos Huamán Espinoza y Familia</div>
+          <div style="font-size: 0.62rem; color: #eed8b8;">Lima - Ate Vitarte</div>
         </div>
 
-        <div class="honor-card">
-          <div class="honor-meta">
-            <div class="honor-role">Donante de la Gran Banda Monumental</div>
-            <div class="honor-person">Comité de Hijos Larmentinos en Lima</div>
-            <div class="honor-city">Lima - San Juan de Lurigancho</div>
-          </div>
-          <div class="honor-badge">🎺</div>
+        <div style="background: rgba(30, 4, 9, 0.85); border: 1px solid var(--border-gold); border-radius: 12px; padding: 10px 14px;">
+          <div style="font-family: 'Cinzel', serif; font-size: 0.58rem; color: var(--gold-300); font-weight: 700;">DONANTE DE LA GRAN BANDA MONUMENTAL</div>
+          <div style="font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 800; color: #fff;">Comité de Hijos Larmentinos en Lima</div>
+          <div style="font-size: 0.62rem; color: #eed8b8;">Lima - San Juan de Lurigancho</div>
         </div>
 
-        <div class="honor-card">
-          <div class="honor-meta">
-            <div class="honor-role">Donante de Cerveza y Confraternidad</div>
-            <div class="honor-person">Familia Espinoza Corazón</div>
-            <div class="honor-city">Larmenta - Izcuchaca</div>
-          </div>
-          <div class="honor-badge">🍻</div>
+        <div style="background: rgba(30, 4, 9, 0.85); border: 1px solid var(--border-gold); border-radius: 12px; padding: 10px 14px;">
+          <div style="font-family: 'Cinzel', serif; font-size: 0.58rem; color: var(--gold-300); font-weight: 700;">DONANTE DE CONFRATERNIDAD Y BRINDIS</div>
+          <div style="font-family: 'Cinzel', serif; font-size: 0.82rem; font-weight: 800; color: #fff;">Familia Espinoza Corazón</div>
+          <div style="font-size: 0.62rem; color: #eed8b8;">Larmenta - Izcuchaca</div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- FOOTER WORDS -->
-    <footer style="text-align: center; padding: 20px 0 10px 0;">
+    <!-- PANEL 4: MURO DE PLEGARIAS INTERACTIVO -->
+    <div class="panel-view" id="view-plegarias">
+      <div class="prayer-form-card">
+        <div style="font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 800; color: var(--gold-100);">OFRENDA TU PLEGARIA AL NIÑO PATRÓN</div>
+        <input type="text" id="prayerName" class="prayer-input" placeholder="Tu nombre o familia (ej. Familia Rojas - Lima)">
+        <input type="text" id="prayerText" class="prayer-input" placeholder="Tu deseo o agradecimiento para este año...">
+        <button class="prayer-submit-btn" onclick="agregarPlegaria()">✨ Dejar Plegaria en el Altar</button>
+      </div>
+
+      <div class="prayers-feed" id="prayersFeed">
+        <div class="prayer-item">
+          <div class="prayer-author">Familia Mayordomos 2026</div>
+          <div class="prayer-text">"Que el Niño Felipito bendiga con salud y abundancia a todos los hogares larmentinos."</div>
+        </div>
+        <div class="prayer-item">
+          <div class="prayer-author">Comité de Residentes en Huancayo</div>
+          <div class="prayer-text">"Presentes siempre de corazón en nuestra colina querida. ¡Viva el Niño Felipito!"</div>
+        </div>
+        <div class="prayer-item">
+          <div class="prayer-author">Devotos de Ate Vitarte - Lima</div>
+          <div class="prayer-text">"Gracias Patrón por cuidar a nuestras familias en cada viaje y cada jornada."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CIERRE DE DEVOCIÓN -->
+    <footer style="text-align: center; padding: 16px 0 6px 0;">
       <div style="font-family: 'Cinzel Decorative', 'Cinzel', serif; font-size: 1.15rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         ¡VIVA EL NIÑO FELIPITO!
       </div>
-      <div style="font-family: 'Cinzel', serif; font-size: 0.75rem; color: #fff; letter-spacing: 1.5px; margin-top: 4px;">
+      <div style="font-family: 'Cinzel', serif; font-size: 0.75rem; color: #fff; letter-spacing: 1.5px; margin-top: 3px;">
         ¡VIVA LARMENTA E IZCUCHACA!
-      </div>
-      <div style="font-size: 0.62rem; color: var(--text-3); margin-top: 6px;">
-        Mayordomía 2026 • Diciembre en las Alturas de Huancavelica
       </div>
     </footer>
 
   </div>
 
-  <!-- FLOATING BOTTOM DOCK -->
+  <!-- DOCK FLOTANTE CON ACCIONES RÁPIDAS -->
   <nav class="floating-dock">
-    <button class="dock-btn primary" onclick="tocarPatron(event)">
-      <span>✨ Bendición</span>
+    <button class="dock-act-btn primary" onclick="toggleRetablo()">
+      <span id="dockIcon">✨</span> <span id="dockTxt">Santuario</span>
     </button>
-    <button class="dock-btn" onclick="quemarCastillo()">
+    <button class="dock-act-btn" onclick="encenderCastillo()">
       <span>🎆 Castillo</span>
     </button>
-    <a id="btnShareDock" class="dock-btn wsp" href="#" target="_blank">
+    <a id="btnShareWsp" class="dock-act-btn wsp" href="#" target="_blank">
       <span>📲 WhatsApp</span>
     </a>
   </nav>
 
   <!-- ==========================================================================
-       SCRIPTS: AUDIO SYNTH, FIREWORKS, SPRING INTERACTIONS, SONNER TOASTS
-       ========================================================================== */
+       SCRIPTS: AUDIO API, PARTÍCULAS, FÍSICA Y GESTOS TÁCTILES
+       ========================================================================== -->
   <script>
     // -------------------------------------------------------------------------
-    // 1. DATA OFICIAL DEL PROGRAMA POR DÍAS
+    // 1. CONTROL DEL RETABLO SAGRADO 3D (Abrir / Cerrar)
     // -------------------------------------------------------------------------
-    const PROGRAMA_DATA = {
-      0: [
-        { time: "06:00 AM", title: "Salva de 21 Camaretazos", desc: "Anuncio tradicional saludando el alba de la gran víspera." },
-        { time: "10:00 AM", title: "Recepción de la Banda Monumental", desc: "Bienvenida oficial con diana y chicha de jora en la entrada." },
-        { time: "02:30 PM", title: "Entrada de Chamiza y Leña", desc: "Acompañado de alegres comparsas y danzantes de Pascuas." },
-        { time: "07:30 PM", title: "Solemne Misa de Vísperas", desc: "Liturgia solemne en la Capilla en honor al Niño Felipito." },
-        { time: "09:30 PM", title: "Quema de Castillo de 10 Cuerpos", desc: "Noche de pirotecnia, luces de bengala y calientito general." }
-      ],
-      1: [
-        { time: "07:00 AM", title: "Diana Floreada por las Calles", desc: "Recorrido musical de la banda despertando al pueblo con júbilo." },
-        { time: "10:30 AM", title: "Misa Solemne Central de Fiesta", desc: "Celebración eucarística principal con coros y autoridades." },
-        { time: "12:00 PM", title: "Solemne Procesión del Santo Patrón", desc: "El Niño Felipito recorre en andas la Plaza de Larmenta." },
-        { time: "01:30 PM", title: "Gran Almuerzo de Confraternidad", desc: "Banquete tradicional ofrecido por los Mayordomos 2026." },
-        { time: "04:00 PM", title: "Gran Baile Popular y Cuadrillas", desc: "Competencia de zapateo de Huayligía y danzantes abuelitos." }
-      ],
-      2: [
-        { time: "10:00 AM", title: "Misa de Acción de Gracias", desc: "Agradecimiento de los mayordomos por los festejos concedidos." },
-        { time: "01:00 PM", title: "Entrega de Cargo y Vara Sagrada", desc: "Traspaso oficial de la mayordomía a los Mayordomos 2027." },
-        { time: "03:30 PM", title: "Tradicional Gran Cortamonte (Yunza)", desc: "Gran cortamonte millonario con orquesta y despedida de fiesta." }
-      ]
-    };
+    let retabloAbierto = false;
+    const doorsWrapper = document.getElementById('doorsWrapper');
+    const btnRetabloTxt = document.getElementById('btnRetabloTxt');
 
-    function switchDay(dayIdx, btn) {
-      // Mover slider estilo Emil Kowalski
-      const tabs = document.querySelectorAll('.tab-btn');
-      tabs.forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-
-      const slider = document.getElementById('tabSlider');
-      const btnRect = btn.getBoundingClientRect();
-      const parentRect = btn.parentElement.getBoundingClientRect();
-      slider.style.width = `${btnRect.width}px`;
-      slider.style.left = `${btnRect.left - parentRect.left}px`;
-
-      // Render items
-      const container = document.getElementById('timelineContent');
-      const items = PROGRAMA_DATA[dayIdx];
-      container.innerHTML = items.map(it => `
-        <div class="timeline-item">
-          <div class="timeline-time-badge">${it.time}</div>
-          <div class="timeline-content">
-            <div class="timeline-title">${it.title}</div>
-            <div class="timeline-desc">${it.desc}</div>
-          </div>
-        </div>
-      `).join('');
+    function toggleRetablo() {
+      retabloAbierto = !retabloAbierto;
+      if (retabloAbierto) {
+        doorsWrapper.classList.add('retablo-open');
+        btnRetabloTxt.textContent = '🕊️ Puertas Abiertas • Recibir Bendición';
+        sonarCampana();
+        dispararChispasSagradas();
+        toast('✨', 'Has abierto el santuario del Niño Felipito de Larmenta');
+        if (navigator.vibrate) navigator.vibrate([50, 80, 50]);
+      } else {
+        doorsWrapper.classList.remove('retablo-open');
+        btnRetabloTxt.textContent = '✨ Toca para Abrir las Puertas Sagradas';
+        sonarGiro();
+        toast('🕊️', 'Que la paz reine en tu hogar');
+      }
     }
 
-    // Inicializar Tab Slider
-    window.addEventListener('DOMContentLoaded', () => {
-      const activeTab = document.querySelector('.tab-btn.active');
-      if (activeTab) switchDay(0, activeTab);
-    });
-
     // -------------------------------------------------------------------------
-    // 2. SONNER TOAST ENGINE (Stacked Notifications)
+    // 2. SISTEMA DE VISTAS (Linear Tabs)
     // -------------------------------------------------------------------------
-    const toastTray = document.getElementById('toastTray');
-
-    function notify(icon, msg) {
-      const t = document.createElement('div');
-      t.className = 'toast';
-      t.innerHTML = `<span style="font-size: 1.1rem;">${icon}</span> <span>${msg}</span>`;
+    function switchView(viewName, btn) {
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel-view').forEach(p => p.classList.remove('active'));
       
-      const current = toastTray.children;
-      if (current.length >= 3) {
-        current[0].remove();
+      btn.classList.add('active');
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) target.classList.add('active');
+      sonarGiro();
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. TOASTS SONNER ENGINE
+    // -------------------------------------------------------------------------
+    const toastBox = document.getElementById('toastBox');
+    function toast(icon, text) {
+      const el = document.createElement('div');
+      el.className = 'toast-msg';
+      el.innerHTML = `<span style="font-size: 1.1rem;">${icon}</span> <span>${text}</span>`;
+      
+      if (toastBox.children.length >= 3) {
+        toastBox.children[0].remove();
       }
-      toastTray.appendChild(t);
+      toastBox.appendChild(el);
 
       setTimeout(() => {
-        t.classList.add('leave');
-        setTimeout(() => t.remove(), 320);
-      }, 3200);
+        el.classList.add('fade');
+        setTimeout(() => el.remove(), 320);
+      }, 3000);
     }
 
     // -------------------------------------------------------------------------
-    // 3. AUDIO WEB API (Campanas, Camaretazos, Hoja)
+    // 4. MOTOR DE AUDIO WEB API
     // -------------------------------------------------------------------------
     let audioCtx = null;
-    function getAudio() {
+    function getCtx() {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
       return audioCtx;
     }
 
+    function sonarGiro() {
+      try {
+        const ctx = getCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(300, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.1);
+      } catch (e) {}
+    }
+
     function sonarCampana() {
       try {
-        const ctx = getAudio();
-        const freqs = [587.33, 880, 1174.66];
-        freqs.forEach((f, i) => {
+        const ctx = getCtx();
+        [587.33, 880, 1174.66].forEach((f, idx) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(f, ctx.currentTime);
-          gain.gain.setValueAtTime(i === 0 ? 0.4 : 0.15, ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 2.5);
+          gain.gain.setValueAtTime(idx === 0 ? 0.45 : 0.18, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 2.6);
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.start();
-          osc.stop(ctx.currentTime + 2.5);
+          osc.stop(ctx.currentTime + 2.6);
         });
-        notify('🔔', 'Repique de campana en la Capilla de Larmenta');
-        if (navigator.vibrate) navigator.vibrate(35);
+        toast('🔔', 'Repique de campana sagrada en Larmenta');
+      } catch (e) {}
+    }
+
+    function sonarDiana() {
+      try {
+        const ctx = getCtx();
+        const notas = [523.25, 659.25, 783.99, 1046.50]; // Diana en Do Mayor
+        notas.forEach((f, idx) => {
+          setTimeout(() => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(f, ctx.currentTime);
+            gain.gain.setValueAtTime(0.3, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.4);
+          }, idx * 120);
+        });
+        toast('🎺', 'Diana de clarines saludando al Santo Patrón');
       } catch (e) {}
     }
 
     function camaretazoSound() {
       try {
-        const ctx = getAudio();
-        const size = ctx.sampleRate * 1.1;
+        const ctx = getCtx();
+        const size = ctx.sampleRate * 1.2;
         const buf = ctx.createBuffer(1, size, ctx.sampleRate);
-        const data = buf.getChannelData(0);
-        for (let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
+        const d = buf.getChannelData(0);
+        for (let i = 0; i < size; i++) d[i] = Math.random() * 2 - 1;
 
         const src = ctx.createBufferSource();
         src.buffer = buf;
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(360, ctx.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 1.0);
+        const f = ctx.createBiquadFilter();
+        f.type = 'lowpass';
+        f.frequency.setValueAtTime(340, ctx.currentTime);
+        f.frequency.exponentialRampToValueAtTime(45, ctx.currentTime + 1.1);
 
         const gain = ctx.createGain();
         gain.gain.setValueAtTime(1.0, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.005, ctx.currentTime + 1.0);
+        gain.gain.exponentialRampToValueAtTime(0.005, ctx.currentTime + 1.1);
 
-        src.connect(filter);
-        filter.connect(gain);
+        src.connect(f);
+        f.connect(gain);
         gain.connect(ctx.destination);
         src.start();
 
-        // Flash
         document.body.style.backgroundColor = '#fff';
-        setTimeout(() => { document.body.style.backgroundColor = 'var(--bg)'; }, 70);
+        setTimeout(() => { document.body.style.backgroundColor = 'var(--bg-void)'; }, 80);
       } catch (e) {}
     }
 
     // -------------------------------------------------------------------------
-    // 4. BANDA AUDIO TOGGLE
+    // 5. AUDIO DE BANDA MONUMENTAL
     // -------------------------------------------------------------------------
     const banda = document.getElementById('bandaAudio');
-    const btnAudio = document.getElementById('btnAudio');
-    const audioTxt = document.getElementById('audioTxt');
+    const btnBanda = document.getElementById('btnBanda');
+    const txtBanda = document.getElementById('txtBanda');
 
-    function toggleAudio() {
-      getAudio();
+    function toggleBanda() {
+      getCtx();
       if (banda.paused) {
         banda.play().then(() => {
-          btnAudio.classList.add('active');
-          audioTxt.textContent = 'Sonando';
-          notify('🎺', 'Sonando: Gran Banda Monumental en vivo');
+          btnBanda.classList.add('active');
+          txtBanda.textContent = 'Sonando';
+          toast('🎺', 'Gran Banda Monumental de Músicos en vivo');
         }).catch(() => {
-          notify('🎺', 'Toca la pantalla para activar el audio de fiesta');
+          toast('🎺', 'Toca la pantalla para reproducir el audio');
         });
       } else {
         banda.pause();
-        btnAudio.classList.remove('active');
-        audioTxt.textContent = 'Banda';
+        btnBanda.classList.remove('active');
+        txtBanda.textContent = 'Banda';
       }
     }
 
     // -------------------------------------------------------------------------
-    // 5. DEVOCIONAL INTERACTIONS (Blessing, Candles)
+    // 6. ACCIONES DEVOCIONALES EN EL ALTAR
     // -------------------------------------------------------------------------
-    let blessings = 1482;
-    function tocarPatron(e) {
-      blessings++;
-      document.getElementById('blessingCount').textContent = blessings.toLocaleString();
-      sonarCampana();
-      quemarCastillo();
-      notify('✨', 'Bendición del Niño Felipito para ti y tu familia');
-      if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
+    function ofrendarFlores() {
+      if (!retabloAbierto) toggleRetablo();
+      dispararFlores();
+      toast('🌸', 'Has ofrendado flores frescas al Niño Felipito');
     }
 
-    function toggleCandle(el, intencion) {
-      getAudio();
+    function encenderVela() {
+      if (!retabloAbierto) toggleRetablo();
       sonarCampana();
-      el.classList.toggle('off');
-      const isOn = !el.classList.contains('off');
-      if (isOn) {
-        notify('🕯️', `Vela encendida: ${intencion}`);
-        dispararChispasDevocionales();
-      } else {
-        notify('🕯️', 'Oración guardada en el corazón');
+      dispararChispasSagradas();
+      toast('🕯️', 'Veladora encendida por la salud de tu familia');
+    }
+
+    function encenderCastillo() {
+      camaretazoSound();
+      toast('🎆', '¡Castillo de 10 Cuerpos Encendido en la Plaza!');
+      lanzarPirotecnia();
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. CANVAS DE CIELO ESTRELLADO ANDINO (Fondo Dinámico)
+    // -------------------------------------------------------------------------
+    const skyCanvas = document.getElementById('skyCanvas');
+    const sCtx = skyCanvas.getContext('2d');
+    let sW = skyCanvas.width = window.innerWidth;
+    let sH = skyCanvas.height = window.innerHeight;
+
+    let stars = [];
+    for (let i = 0; i < 120; i++) {
+      stars.push({
+        x: Math.random() * sW,
+        y: Math.random() * (sH * 0.65),
+        r: Math.random() * 1.5 + 0.5,
+        alpha: Math.random(),
+        speed: Math.random() * 0.02 + 0.005
+      });
+    }
+
+    function drawSky() {
+      sCtx.clearRect(0, 0, sW, sH);
+      for (const st of stars) {
+        st.alpha += st.speed;
+        if (st.alpha > 1 || st.alpha < 0.2) st.speed = -st.speed;
+        sCtx.beginPath();
+        sCtx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+        sCtx.fillStyle = `rgba(255, 250, 220, ${st.alpha})`;
+        sCtx.fill();
       }
+      requestAnimationFrame(drawSky);
     }
+    drawSky();
 
     // -------------------------------------------------------------------------
-    // 6. 3D TILT EFFECT ON HERO CARD (Emil Kowalski Tactile Physics)
+    // 8. CANVAS DE EFECTOS PIROTÉCNICOS Y FLORES (FX Canvas)
     // -------------------------------------------------------------------------
-    const heroCard = document.getElementById('hologramCard');
-    heroCard.addEventListener('mousemove', e => {
-      const rect = heroCard.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      heroCard.style.transform = `perspective(1000px) rotateY(${x * 0.05}deg) rotateX(${-y * 0.05}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
-    heroCard.addEventListener('mouseleave', () => {
-      heroCard.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
-    });
-
-    // -------------------------------------------------------------------------
-    // 7. FIREWORKS & CONFETTI ENGINE (Canvas)
-    // -------------------------------------------------------------------------
-    const canvas = document.getElementById('fireworksCanvas');
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+    const fxCanvas = document.getElementById('fxCanvas');
+    const fCtx = fxCanvas.getContext('2d');
+    let fW = fxCanvas.width = window.innerWidth;
+    let fH = fxCanvas.height = window.innerHeight;
 
     window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      sW = skyCanvas.width = fW = fxCanvas.width = window.innerWidth;
+      sH = skyCanvas.height = fH = fxCanvas.height = window.innerHeight;
     });
 
-    let sparks = [];
+    let particles = [];
 
-    function quemarCastillo() {
-      camaretazoSound();
-      notify('🎆', '¡Castillo de 10 Cuerpos Encendido en Larmenta!');
-      const colors = ['#ffd978', '#ff334b', '#00ffcc', '#ff9900', '#ffffff', '#ff0077', '#c792ea'];
-      for (let b = 0; b < 6; b++) {
-        setTimeout(() => {
-          const ox = width * (0.2 + Math.random() * 0.6);
-          const oy = height * (0.15 + Math.random() * 0.35);
-          for (let i = 0; i < 75; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const speed = Math.random() * 7 + 1.5;
-            sparks.push({
-              x: ox, y: oy,
-              vx: Math.cos(angle) * speed,
-              vy: Math.sin(angle) * speed,
-              color: colors[Math.floor(Math.random() * colors.length)],
-              alpha: 1,
-              decay: Math.random() * 0.02 + 0.012
-            });
-          }
-        }, b * 220);
-      }
-    }
-
-    function dispararChispasDevocionales() {
-      const ox = width * 0.5;
-      const oy = height * 0.5;
-      const colors = ['#fff5c0', '#dfba54', '#ffffff', '#ffd700'];
-      for (let i = 0; i < 40; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 4 + 1;
-        sparks.push({
+    function dispararChispasSagradas() {
+      const ox = fW * 0.5;
+      const oy = fH * 0.35;
+      const cols = ['#fffadc', '#fedb70', '#ffffff', '#ffd700'];
+      for (let i = 0; i < 50; i++) {
+        const ang = Math.random() * Math.PI * 2;
+        const spd = Math.random() * 4 + 1.2;
+        particles.push({
           x: ox, y: oy,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 1.5,
-          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: Math.cos(ang) * spd,
+          vy: Math.sin(ang) * spd - 1,
+          color: cols[Math.floor(Math.random() * cols.length)],
           alpha: 1,
-          decay: Math.random() * 0.025 + 0.015
+          decay: Math.random() * 0.02 + 0.015,
+          size: 2.5
         });
       }
     }
 
-    function renderFireworks() {
-      ctx.clearRect(0, 0, width, height);
-      for (let i = sparks.length - 1; i >= 0; i--) {
-        const s = sparks[i];
-        s.x += s.vx;
-        s.y += s.vy;
-        s.vy += 0.08;
-        s.alpha -= s.decay;
+    function dispararFlores() {
+      const ox = fW * 0.5;
+      const oy = fH * 0.3;
+      const cols = ['#ff69b4', '#ffd700', '#ff1493', '#ffffff', '#ff8c00'];
+      for (let i = 0; i < 40; i++) {
+        const ang = Math.random() * Math.PI * 2;
+        const spd = Math.random() * 3 + 1;
+        particles.push({
+          x: ox, y: oy,
+          vx: Math.cos(ang) * spd,
+          vy: Math.sin(ang) * spd,
+          color: cols[Math.floor(Math.random() * cols.length)],
+          alpha: 1,
+          decay: 0.012,
+          size: 4
+        });
+      }
+    }
 
-        if (s.alpha <= 0) {
-          sparks.splice(i, 1);
+    function lanzarPirotecnia() {
+      const colors = ['#ffd978', '#ff334b', '#00ffcc', '#ff9900', '#ffffff', '#c792ea'];
+      for (let b = 0; b < 6; b++) {
+        setTimeout(() => {
+          const ox = fW * (0.2 + Math.random() * 0.6);
+          const oy = fH * (0.15 + Math.random() * 0.3);
+          for (let i = 0; i < 65; i++) {
+            const ang = Math.random() * Math.PI * 2;
+            const spd = Math.random() * 7 + 1.5;
+            particles.push({
+              x: ox, y: oy,
+              vx: Math.cos(ang) * spd,
+              vy: Math.sin(ang) * spd,
+              color: colors[Math.floor(Math.random() * colors.length)],
+              alpha: 1,
+              decay: Math.random() * 0.02 + 0.012,
+              size: 2.8
+            });
+          }
+        }, b * 200);
+      }
+    }
+
+    function loopFx() {
+      fCtx.clearRect(0, 0, fW, fH);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.07; // Gravedad
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
         } else {
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = s.color;
-          ctx.globalAlpha = s.alpha;
-          ctx.shadowBlur = 10;
-          ctx.shadowColor = s.color;
-          ctx.fill();
+          fCtx.beginPath();
+          fCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          fCtx.fillStyle = p.color;
+          fCtx.globalAlpha = p.alpha;
+          fCtx.shadowBlur = 8;
+          fCtx.shadowColor = p.color;
+          fCtx.fill();
         }
       }
-      ctx.globalAlpha = 1;
-      requestAnimationFrame(renderFireworks);
+      fCtx.globalAlpha = 1;
+      requestAnimationFrame(loopFx);
     }
-    renderFireworks();
+    loopFx();
 
     // -------------------------------------------------------------------------
-    // 8. MODAL LIGHTBOX
+    // 9. LIGHTBOX MODAL DE FOTOS
     // -------------------------------------------------------------------------
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modalImg = document.getElementById('modalImg');
-    const modalDesc = document.getElementById('modalDesc');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxDesc = document.getElementById('lightboxDesc');
 
-    function openModal(src, desc) {
-      modalImg.src = src;
-      modalDesc.textContent = desc;
-      modalBackdrop.classList.add('open');
+    function openPhoto(src, desc) {
+      lightboxImg.src = src;
+      lightboxDesc.textContent = desc;
+      lightbox.classList.add('active');
     }
 
-    function closeModal(e) {
-      if (e.target === modalBackdrop || e.target.classList.contains('modal-close-btn')) {
-        modalBackdrop.classList.remove('open');
+    function closeLightbox(e) {
+      if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+        lightbox.classList.remove('active');
       }
     }
 
     // -------------------------------------------------------------------------
-    // 9. WHATSAPP SHARE LINK
+    // 10. MURO DE PLEGARIAS INTERACTIVO
+    // -------------------------------------------------------------------------
+    function agregarPlegaria() {
+      const name = document.getElementById('prayerName').value.trim();
+      const text = document.getElementById('prayerText').value.trim();
+      if (!name || !text) {
+        toast('⚠️', 'Por favor ingresa tu nombre y plegaria');
+        return;
+      }
+      const feed = document.getElementById('prayersFeed');
+      const item = document.createElement('div');
+      item.className = 'prayer-item';
+      item.innerHTML = `<div class="prayer-author">${name}</div><div class="prayer-text">"${text}"</div>`;
+      feed.prepend(item);
+
+      document.getElementById('prayerName').value = '';
+      document.getElementById('prayerText').value = '';
+      sonarCampana();
+      dispararFlores();
+      toast('🕊️', 'Tu plegaria ha sido depositada en el altar');
+    }
+
+    // -------------------------------------------------------------------------
+    // 11. ENLACE DE WHATSAPP
     // -------------------------------------------------------------------------
     const shareUrl = window.location.href;
-    const wspText = encodeURIComponent(
-      `🎊 *PROGRAMA VIRTUAL • FESTIVIDAD NIÑO FELIPITO 2026*\n` +
+    const wspMsg = encodeURIComponent(
+      `🎊 *SANTUARIO VIRTUAL • FESTIVIDAD NIÑO FELIPITO 2026*\n` +
       `📍 *Larmenta - Izcuchaca, Huancavelica*\n` +
       `📅 *24, 25 y 26 de Diciembre*\n\n` +
-      `Los Mayordomos tienen el honor de compartir la festividad patronal en su colina sagrada.\n\n` +
-      `👉 Abre el programa interactivo aquí:\n${shareUrl}`
+      `Abre las puertas del retablo sagrado y recibe la bendición desde tu celular:\n${shareUrl}`
     );
-    document.getElementById('btnShareDock').href = `https://api.whatsapp.com/send?text=${wspText}`;
+    document.getElementById('btnShareWsp').href = `https://api.whatsapp.com/send?text=${wspMsg}`;
   </script>
 </body>
 </html>
