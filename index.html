@@ -11,19 +11,15 @@
 
   <style>
     :root {
-      --bg-dark: #120104;
-      --bg-card: #260309;
-      --bg-card-inner: #3a0610;
-      
-      --gold-1: #fff5b8;
-      --gold-2: #dfba54;
-      --gold-3: #9b741f;
+      --sky-top: #0077c8;
+      --sky-mid: #29a0e8;
+      --sky-light: #d8f1ff;
+      --gold-deep: #b38728;
+      --gold-bright: #ffe600;
       --gold-grad: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
-      
-      --cyan-festivo: #00f0ff;
-      --yellow-festivo: #ffe600;
-      --red-festivo: #e60026;
+      --red-festivo: #d8001d;
       --green-wsp: #25d366;
+      --shadow-afiche: 0 10px 35px rgba(0, 40, 80, 0.35);
     }
 
     * {
@@ -34,18 +30,15 @@
     }
 
     body {
-      background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 50% 10%, rgba(223, 186, 84, 0.22) 0%, transparent 60%),
-        radial-gradient(circle at 50% 90%, rgba(230, 0, 38, 0.18) 0%, transparent 70%),
-        repeating-linear-gradient(45deg, rgba(0,0,0,0.3) 0, rgba(0,0,0,0.3) 2px, transparent 0, transparent 8px);
-      color: #fff4d1;
+      background: #0b1a2d;
+      background-image: radial-gradient(circle at 50% 0%, #17365d 0%, #060e18 100%);
       font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 8px 8px 95px 8px;
+      color: #1a1a1a;
     }
 
     /* Canvas Pirotecnia */
@@ -56,431 +49,534 @@
       z-index: 999;
     }
 
-    /* BARRA SUPERIOR DE ACCIONES RÁPIDAS */
-    .action-hud {
+    /* BARRA SUPERIOR DE HERRAMIENTAS (Banda, Campana, Castillo) */
+    .top-hud {
       width: 100%;
       max-width: 520px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 5px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       z-index: 20;
     }
-    .hud-chip {
-      background: rgba(38, 3, 9, 0.9);
-      border: 1.5px solid var(--gold-2);
+    .hud-btn {
+      background: rgba(11, 26, 45, 0.95);
+      border: 1.5px solid var(--gold-deep);
       border-radius: 20px;
       padding: 7px 4px;
-      color: var(--gold-1);
+      color: #fff;
       font-family: 'Cinzel', serif;
       font-size: 0.68rem;
       font-weight: 700;
       text-align: center;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
       backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 4px;
     }
-    .hud-chip.active {
+    .hud-btn.active {
       background: var(--gold-grad);
-      color: #120104;
+      color: #0b1a2d;
       border-color: #fff;
     }
 
-    /* CONTENEDOR TIPO AFICHE GIGANTOGRAFÍA DE FACEBOOK */
-    .afiche-canvas {
+    /* PESTAÑAS DE NAVEGACIÓN (Afiche / Programa / Colaboradores) */
+    .tab-switcher {
       width: 100%;
       max-width: 520px;
-      background: var(--bg-card);
-      border: 3.5px solid var(--gold-2);
-      border-radius: 14px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 25px rgba(223, 186, 84, 0.35);
-      position: relative;
-      overflow: hidden;
-      padding: 16px 12px 22px 12px;
-    }
-
-    /* Cenefa de luces de fiesta en el borde */
-    .afiche-canvas::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-image: radial-gradient(rgba(223, 186, 84, 0.08) 1px, transparent 0);
-      background-size: 16px 16px;
-      pointer-events: none;
-    }
-
-    /* Esquineros Corel */
-    .corner {
-      position: absolute;
-      width: 44px;
-      height: 44px;
-      stroke: var(--gold-2);
-      fill: none;
-      pointer-events: none;
-      z-index: 5;
-    }
-    .c-tl { top: 6px; left: 6px; }
-    .c-tr { top: 6px; right: 6px; transform: scaleX(-1); }
-    .c-bl { bottom: 6px; left: 6px; transform: scaleY(-1); }
-    .c-br { bottom: 6px; right: 6px; transform: scale(-1); }
-
-    /* CINTILLO SUPERIOR */
-    .cintillo-top {
-      text-align: center;
-      font-family: 'Cinzel', serif;
-      font-size: 0.68rem;
-      letter-spacing: 2.5px;
-      color: var(--gold-1);
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    /* ENCABEZADO DE IMPACTO TIPO AFICHE */
-    .afiche-header {
-      text-align: center;
-      margin-bottom: 12px;
-    }
-    .tag-gran-fiesta {
-      background: linear-gradient(90deg, #b3001e, #ff1a40, #b3001e);
-      color: #fff;
-      font-family: 'Teko', sans-serif;
-      font-size: 1.45rem;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      padding: 2px 14px;
-      border-radius: 4px;
-      display: inline-block;
-      box-shadow: 0 4px 12px rgba(255, 26, 64, 0.4);
-      border: 1px solid rgba(255,255,255,0.4);
-    }
-    .titulo-patron {
-      font-family: 'Cinzel Decorative', 'Cinzel', serif;
-      font-size: 2.3rem;
-      font-weight: 900;
-      line-height: 1.05;
-      text-transform: uppercase;
-      background: var(--gold-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 3px 8px rgba(0,0,0,0.95));
-      margin: 6px 0 2px 0;
-    }
-    .lugar-insignia {
-      font-family: 'Cinzel', serif;
-      font-size: 0.86rem;
-      font-weight: 800;
-      color: var(--yellow-festivo);
-      letter-spacing: 2px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .lugar-insignia::before, .lugar-insignia::after {
-      content: "★";
-      color: var(--gold-2);
-    }
-
-    /* MEDALLÓN SAGRADO CON RESPLANDOR Y ESCUDO */
-    .medallon-afiche {
-      width: 175px;
-      height: 215px;
-      margin: 10px auto 14px auto;
-      border: 4px solid var(--gold-2);
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 40%, #470613 0%, #170104 100%);
-      box-shadow: 
-        0 0 0 4px #260309,
-        0 0 0 7px var(--gold-3),
-        0 0 35px rgba(223, 186, 84, 0.65),
-        inset 0 0 20px rgba(0,0,0,0.8);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      cursor: pointer;
-    }
-    .medallon-afiche svg {
-      width: 58px;
-      height: 58px;
-      fill: var(--gold-1);
-      filter: drop-shadow(0 0 10px rgba(223, 186, 84, 0.8));
-    }
-    .medallon-nombre {
-      font-family: 'Cinzel', serif;
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: var(--gold-1);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      text-align: center;
-      margin-top: 4px;
-    }
-    .medallon-sub {
-      font-size: 0.64rem;
-      color: var(--yellow-festivo);
-      letter-spacing: 1px;
-    }
-
-    /* CUADRO DE MAYORDOMÍA DE HONOR */
-    .mayordomia-banner {
-      background: linear-gradient(135deg, rgba(82, 10, 24, 0.95), rgba(30, 3, 8, 0.98));
-      border: 2px solid var(--gold-2);
+      background: #0f223a;
+      border: 1.5px solid var(--gold-deep);
       border-radius: 10px;
-      padding: 14px 10px;
-      text-align: center;
-      margin-bottom: 14px;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
-    .mayordomia-title {
+    .tab-nav {
+      flex: 1;
+      padding: 9px 4px;
+      background: transparent;
+      border: none;
+      color: #c7defa;
       font-family: 'Cinzel', serif;
       font-size: 0.74rem;
-      letter-spacing: 2px;
-      color: var(--gold-1);
-      text-transform: uppercase;
-    }
-    .mayordomo-nombre {
-      font-family: 'Pinyon Script', cursive;
-      font-size: 2.6rem;
-      color: var(--gold-1);
-      line-height: 1.15;
-      text-shadow: 0 2px 10px rgba(223, 186, 84, 0.6);
-      display: block;
-      margin: 2px 0;
-    }
-    .mayordomo-familia {
-      font-size: 0.84rem;
-      color: #fff;
-      font-style: italic;
-    }
-
-    /* FECHAS EN GIGANTE (ESTILO AFICHE DE EVENTOS) */
-    .fechas-strip {
-      background: linear-gradient(90deg, #180205, #420612, #180205);
-      border: 1.5px solid var(--gold-2);
-      border-radius: 8px;
-      padding: 8px 6px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    .fecha-col {
-      text-align: center;
-    }
-    .fecha-num {
-      font-family: 'Teko', sans-serif;
-      font-size: 2.2rem;
-      line-height: 1;
-      color: var(--yellow-festivo);
-      display: block;
-    }
-    .fecha-mes {
-      font-family: 'Cinzel', serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 1px;
-    }
-    .fecha-fase {
-      font-size: 0.62rem;
-      color: var(--gold-1);
-      text-transform: uppercase;
-    }
-
-    /* ESTRELLAS Y BADGES LLAMATIVOS DE AFICHE */
-    .badges-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-    .fest-badge {
-      background: linear-gradient(135deg, #2b040c, #4a0715);
-      border: 1px solid var(--gold-2);
-      border-radius: 8px;
-      padding: 8px 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .badge-icon {
-      font-size: 1.5rem;
-    }
-    .badge-info strong {
-      display: block;
-      font-family: 'Cinzel', serif;
-      font-size: 0.76rem;
-      color: var(--yellow-festivo);
-      line-height: 1.2;
-    }
-    .badge-info span {
-      font-size: 0.68rem;
-      color: #e6d3c3;
-    }
-
-    /* CARTELERA ARTÍSTICA Y COSTUMBRISTA */
-    .cartelera-box {
-      background: rgba(18, 1, 4, 0.85);
-      border: 1.5px solid var(--gold-3);
-      border-radius: 10px;
-      padding: 12px 10px;
-      margin-bottom: 14px;
-    }
-    .cartelera-title {
-      font-family: 'Teko', sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 2px;
-      color: var(--gold-1);
-      text-align: center;
-      text-transform: uppercase;
-      border-bottom: 1px dashed rgba(223, 186, 84, 0.3);
-      padding-bottom: 4px;
-      margin-bottom: 10px;
-    }
-    .elenco-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px dashed rgba(223, 186, 84, 0.15);
-    }
-    .elenco-item:last-child { border-bottom: none; }
-    .elenco-tag {
-      background: var(--red-festivo);
-      color: #fff;
-      font-family: 'Cinzel', serif;
-      font-size: 0.62rem;
       font-weight: 800;
-      padding: 3px 6px;
-      border-radius: 4px;
-      min-width: 75px;
       text-align: center;
-      text-transform: uppercase;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
     }
-    .elenco-desc {
-      font-size: 0.8rem;
-      line-height: 1.35;
-    }
-    .elenco-desc strong {
-      color: #fff;
-      font-size: 0.84rem;
+    .tab-nav.active {
+      background: var(--gold-grad);
+      color: #0b1a2d;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
     }
 
-    /* CRONOGRAMA RESUMIDO HORA POR HORA */
-    .programa-bloque {
-      background: rgba(30, 3, 8, 0.9);
-      border: 1px solid var(--gold-2);
-      border-radius: 10px;
+    /* CONTENEDOR TIPO AFICHE OFICIAL ANDINO */
+    .afiche-main {
+      width: 100%;
+      max-width: 520px;
+      background: linear-gradient(180deg, #0077c8 0%, #29a0e8 25%, #84c9f7 45%, #e8f5ff 65%, #f6fafd 100%);
+      border: 4px solid var(--gold-deep);
+      border-radius: 14px;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.8), var(--shadow-afiche);
+      position: relative;
       overflow: hidden;
-      margin-bottom: 14px;
+      padding: 14px 10px 18px 10px;
     }
-    .prog-header {
-      background: linear-gradient(90deg, #660a1d, #8f122c);
-      padding: 8px 12px;
+
+    /* ENCABEZADO EN ARCO Y TÍTULOS EN RELIEVE */
+    .header-arco {
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      margin-bottom: 6px;
+    }
+    .badge-huayligia {
+      background: linear-gradient(90deg, #d8001d, #ff2647, #d8001d);
+      color: #fff;
+      font-family: 'Teko', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 1px 16px;
+      border-radius: 6px;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(216, 0, 29, 0.45);
+      border: 1.5px solid #fff;
+    }
+    .en-honor-al {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      margin: 4px 0 2px 0;
+      display: block;
+    }
+    .titulo-nino {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 3.4rem;
+      line-height: 1.05;
+      color: #fffbdf;
+      text-shadow: 
+        3px 3px 0 #946912,
+        -2px -2px 0 #946912,
+        2px -2px 0 #946912,
+        -2px 2px 0 #946912,
+        0 4px 15px rgba(0,0,0,0.8);
+      display: block;
+    }
+    .sub-felipito {
+      font-family: 'Teko', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      line-height: 0.9;
+      color: #ffe600;
+      text-shadow: 
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        0 4px 10px rgba(0,0,0,0.9);
+      display: block;
+    }
+    .pueblo-lema {
+      background: #0b1a2d;
+      color: #ffe600;
       font-family: 'Cinzel', serif;
       font-size: 0.82rem;
       font-weight: 800;
-      color: #fff;
+      letter-spacing: 2px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 4px;
+      border: 1px solid var(--gold-deep);
+    }
+
+    /* ZONA CENTRAL: NIÑO JESÚS FLOTANTE + PERGAMINOS DE FECHAS */
+    .hero-scene {
+      position: relative;
+      margin: 10px 0 14px 0;
+      min-height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Danzantes a los costados */
+    .danzante-lateral {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 65px;
+      height: 110px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+    .danzante-lateral img { width: 100%; height: 100%; object-fit: cover; }
+    .danzante-izq { left: 4px; }
+    .danzante-der { right: 4px; }
+
+    /* Medallón Celestial Central con el Niño */
+    .nino-altar {
+      width: 175px;
+      height: 235px;
+      border-radius: 50%;
+      border: 5px solid var(--gold-deep);
+      box-shadow: 0 0 0 4px #fff, 0 0 35px rgba(255, 230, 0, 0.8), 0 10px 25px rgba(0,0,0,0.5);
+      overflow: hidden;
+      position: relative;
+      z-index: 3;
+      background: radial-gradient(circle, #fff7b3 0%, #29a0e8 100%);
+      cursor: pointer;
+    }
+    .nino-altar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* PERGAMINOS DE FECHAS FLOTANTES (Estilo foto 1 y 3) */
+    .fechas-pergaminos {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 5;
+    }
+    .pergamino-card {
+      flex: 1;
+      background: linear-gradient(180deg, #fffcf0 0%, #f6ebc9 100%);
+      border: 2px solid var(--gold-deep);
+      border-radius: 8px;
+      padding: 8px 4px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      position: relative;
+    }
+    .pergamino-card::before, .pergamino-card::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 8px;
+      background: var(--gold-deep);
+      top: -4px;
+    }
+    .pergamino-card::before { left: 8px; border-radius: 4px; }
+    .pergamino-card::after { right: 8px; border-radius: 4px; }
+    .perg-mes {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #8a1327;
       letter-spacing: 1px;
+    }
+    .perg-dias {
+      font-family: 'Teko', sans-serif;
+      font-size: 2.2rem;
+      line-height: 1;
+      color: var(--red-festivo);
+      font-weight: 700;
+    }
+    .perg-act {
+      font-size: 0.65rem;
+      color: #0b1a2d;
+      font-weight: 700;
+      display: block;
+    }
+
+    /* RECUADRO DE MAYORDOMÍA (Idéntico a foto 2 de Larmenta) */
+    .mayordomia-larmenta-box {
+      background: linear-gradient(135deg, #0b1a2d 0%, #17365d 100%);
+      border: 2.5px solid var(--gold-deep);
+      border-radius: 12px;
+      padding: 12px 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 5;
+    }
+    .mayordomo-foto-circulo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 3px solid var(--gold-deep);
+      box-shadow: 0 0 10px rgba(255, 230, 0, 0.5);
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #000;
+    }
+    .mayordomo-foto-circulo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .mayordomo-info {
+      flex: 1;
+      color: #fff;
+    }
+    .ribbon-magenta {
+      background: linear-gradient(90deg, #c2185b, #e91e63);
+      color: #fff;
+      font-family: 'Pinyon Script', cursive;
+      font-size: 1.6rem;
+      padding: 0 12px;
+      border-radius: 14px;
+      display: inline-block;
+      line-height: 1.1;
+      margin-bottom: 4px;
+      box-shadow: 0 2px 8px rgba(233, 30, 99, 0.4);
+    }
+    .mayordomo-nombres {
+      font-family: 'Cinzel', serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #ffe600;
+      line-height: 1.25;
+    }
+    .mayordomo-dedicatoria {
+      font-size: 0.72rem;
+      color: #d1e5ff;
+      margin-top: 4px;
+    }
+
+    /* CARTELERA ARTÍSTICA (Cantantes, Banda y Orquestas de foto 3) */
+    .cartelera-section {
+      background: #ffffff;
+      border: 2px solid var(--gold-deep);
+      border-radius: 12px;
+      padding: 12px 10px;
+      margin-bottom: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 5;
+    }
+    .cartelera-title {
+      font-family: 'Teko', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+      color: #8a1327;
+      text-align: center;
+      text-transform: uppercase;
+      border-bottom: 2px solid #f0e0b0;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+    }
+    .artistas-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .artista-tarjeta {
+      background: #f4f9fd;
+      border: 1.5px solid #c9e1f5;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .artista-img-box {
+      width: 100%;
+      height: 100px;
+      overflow: hidden;
+      background: #111;
+    }
+    .artista-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .artista-nombre {
+      font-family: 'Cinzel', serif;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #8a1327;
+      padding: 5px 4px 2px 4px;
+    }
+    .artista-rol {
+      font-size: 0.65rem;
+      color: #555;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+
+    /* Tarjeta Banda Monumental Ancha */
+    .banda-full-card {
+      background: linear-gradient(135deg, #0b1a2d, #1a385f);
+      border: 2px solid var(--gold-deep);
+      border-radius: 8px;
+      overflow: hidden;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .banda-img-banner {
+      width: 100%;
+      height: 130px;
+      overflow: hidden;
+    }
+    .banda-img-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .banda-txt-info {
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .banda-nombre {
+      font-family: 'Teko', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 1.5px;
+      color: #ffe600;
+      line-height: 1.1;
+    }
+
+    /* PUEBLO AL FONDO (PANORÁMICA DE LARMENTA - FOTO 1) */
+    .pueblo-panoramica {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid var(--gold-deep);
+      margin-bottom: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .pueblo-panoramica img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* PLEGARIA TRADICIONAL DE LARMENTA (FOTO 2) */
+    .plegaria-larmenta {
+      background: linear-gradient(180deg, #134e18 0%, #0c3310 100%);
+      color: #f2ffef;
+      border: 2px solid var(--gold-deep);
+      border-radius: 10px;
+      padding: 12px 10px;
+      text-align: center;
+      font-size: 0.78rem;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .plegaria-titulo {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 1.8rem;
+      color: #ffe600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* TAB 2: CRONOGRAMA HORA POR HORA */
+    .tab-view { display: none; }
+    .tab-view.active { display: block; }
+
+    .crono-card {
+      background: #ffffff;
+      border: 2px solid var(--gold-deep);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .crono-header {
+      background: linear-gradient(90deg, #8a1327, #ba1c38);
+      color: #fff;
+      padding: 8px 12px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 800;
       display: flex;
       justify-content: space-between;
     }
-    .prog-list {
-      list-style: none;
-      padding: 6px 10px;
-    }
-    .prog-item {
-      display: flex;
-      gap: 8px;
-      padding: 6px 0;
-      border-bottom: 1px dashed rgba(223, 186, 84, 0.18);
-      font-size: 0.78rem;
-    }
-    .prog-item:last-child { border-bottom: none; }
-    .prog-hora {
-      font-family: 'Cinzel', serif;
-      font-weight: 700;
-      color: var(--yellow-festivo);
-      min-width: 60px;
-    }
-
-    /* GENERADOR DE PASE DE HONOR CON QR Y SELLO */
-    .pase-section {
-      background: linear-gradient(135deg, rgba(65, 8, 20, 0.95), rgba(20, 2, 5, 0.98));
-      border: 2px dashed var(--gold-2);
-      border-radius: 12px;
-      padding: 14px 10px;
-      text-align: center;
-      margin-bottom: 14px;
-    }
-    .pase-input {
+    .crono-table {
       width: 100%;
-      background: rgba(45, 5, 12, 0.9);
-      border: 1px solid var(--gold-2);
-      border-radius: 6px;
-      padding: 9px 10px;
-      color: #fff;
-      font-size: 0.84rem;
-      outline: none;
-      text-align: center;
-      margin: 8px 0;
+      border-collapse: collapse;
+      font-size: 0.8rem;
     }
-    .btn-generar-pase {
-      background: var(--gold-grad);
-      border: none;
-      color: #120104;
+    .crono-table td {
+      padding: 8px 10px;
+      border-bottom: 1px dashed #e0e0e0;
+      color: #333;
+    }
+    .crono-hora {
       font-family: 'Cinzel', serif;
       font-weight: 800;
-      font-size: 0.78rem;
-      padding: 10px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      letter-spacing: 1px;
-    }
-    .pase-resultado {
-      display: none;
-      margin-top: 10px;
-      padding: 10px;
-      background: #150104;
-      border: 1px solid var(--gold-2);
-      border-radius: 6px;
+      color: #8a1327;
+      width: 80px;
     }
 
-    /* PIE DEL AFICHE: LEMAS Y GARANTÍAS */
-    .garantias-strip {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(223, 186, 84, 0.25);
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-      font-size: 0.74rem;
-      color: #e0cbba;
-      line-height: 1.45;
+    /* TAB 3: CUADRO DE HONOR DE COLABORADORES Y PADRINOS */
+    .colab-section {
+      background: #ffffff;
+      border: 2.5px solid var(--gold-deep);
+      border-radius: 12px;
+      padding: 14px 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      margin-bottom: 14px;
     }
-    .viva-clamor {
-      font-family: 'Cinzel Decorative', 'Cinzel', serif;
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: var(--yellow-festivo);
+    .colab-title {
+      font-family: 'Teko', sans-serif;
+      font-size: 1.8rem;
+      color: #8a1327;
       letter-spacing: 2px;
+      text-align: center;
+      text-transform: uppercase;
+      border-bottom: 2px solid #f0e0b0;
+      padding-bottom: 4px;
+      margin-bottom: 12px;
+    }
+    .padrinos-lista {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .padrino-fila {
+      background: #f8fbff;
+      border-left: 4px solid var(--gold-deep);
+      padding: 9px 12px;
+      border-radius: 0 8px 8px 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .padrino-cargo {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #8a1327;
+      text-transform: uppercase;
       display: block;
-      margin-top: 6px;
+      margin-bottom: 2px;
+    }
+    .padrino-nombres {
+      font-size: 0.84rem;
+      color: #111;
+      font-weight: 700;
+    }
+    .padrino-lugar {
+      font-size: 0.68rem;
+      color: #666;
     }
 
-    /* BARRA FIJA INFERIOR */
-    .bottom-nav {
+    /* BARRA INFERIOR FIJA */
+    .bottom-bar {
       position: fixed;
       bottom: 0; left: 0; right: 0;
-      background: rgba(18, 1, 4, 0.96);
-      border-top: 1.5px solid var(--gold-2);
+      background: rgba(11, 26, 45, 0.96);
+      border-top: 1.5px solid var(--gold-deep);
       backdrop-filter: blur(10px);
       padding: 10px 12px;
       display: flex;
@@ -488,9 +584,9 @@
       justify-content: center;
       z-index: 100;
     }
-    .btn-main-action {
+    .btn-action-main {
       flex: 1;
-      max-width: 260px;
+      max-width: 250px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -504,231 +600,263 @@
       border: none;
       cursor: pointer;
     }
-    .btn-wsp { background: var(--green-wsp); color: #fff; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4); }
-    .btn-fire { background: var(--gold-grad); color: #120104; box-shadow: 0 4px 14px rgba(223, 186, 84, 0.4); }
+    .btn-wsp { background: var(--green-wsp); color: #fff; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4); }
+    .btn-fire { background: var(--gold-grad); color: #0b1a2d; box-shadow: 0 4px 12px rgba(223, 186, 84, 0.4); }
   </style>
 </head>
 <body>
 
   <canvas id="fireworksCanvas"></canvas>
 
-  <audio id="audioBanda" loop preload="auto">
+  <audio id="bandaAudio" loop preload="auto">
     <source src="banda.mp3" type="audio/mp3">
   </audio>
 
-  <!-- BARRA SUPERIOR DE HERRAMIENTAS -->
-  <div class="action-hud">
-    <div class="hud-chip" id="chipAudio" onclick="toggleAudio()">
-      🎺 <span id="chipAudioTxt">Banda</span>
-    </div>
-    <div class="hud-chip" onclick="sonarCampana()">
+  <!-- HUD SUPERIOR -->
+  <header class="top-hud">
+    <button class="hud-btn" id="btnAudio" onclick="toggleAudio()">
+      🎺 <span id="audioTxt">Banda</span>
+    </button>
+    <button class="hud-btn" onclick="sonarCampana()">
       🔔 Campana
-    </div>
-    <div class="hud-chip" onclick="lanzarCamaretazo()">
+    </button>
+    <button class="hud-btn" onclick="lanzarCamaretazo()">
       💥 Camareta
-    </div>
-    <div class="hud-chip" onclick="quemarCastillo()">
+    </button>
+    <button class="hud-btn" onclick="quemarCastillo()">
       🎆 Castillo
-    </div>
-  </div>
+    </button>
+  </header>
 
-  <!-- AFICHE GIGANTOGRAFÍA OFICIAL DE FACEBOOK -->
-  <main class="afiche-canvas">
-    
-    <!-- Esquineros de Corel -->
-    <svg class="corner c-tl" viewBox="0 0 80 80"><path d="M 4 76 L 4 4 L 76 4 M 10 70 L 10 10 L 70 10 M 4 4 L 25 25"/><circle cx="20" cy="20" r="3" fill="var(--gold-2)"/></svg>
-    <svg class="corner c-tr" viewBox="0 0 80 80"><path d="M 4 76 L 4 4 L 76 4 M 10 70 L 10 10 L 70 10 M 4 4 L 25 25"/><circle cx="20" cy="20" r="3" fill="var(--gold-2)"/></svg>
-    <svg class="corner c-bl" viewBox="0 0 80 80"><path d="M 4 76 L 4 4 L 76 4 M 10 70 L 10 10 L 70 10 M 4 4 L 25 25"/><circle cx="20" cy="20" r="3" fill="var(--gold-2)"/></svg>
-    <svg class="corner c-br" viewBox="0 0 80 80"><path d="M 4 76 L 4 4 L 76 4 M 10 70 L 10 10 L 70 10 M 4 4 L 25 25"/><circle cx="20" cy="20" r="3" fill="var(--gold-2)"/></svg>
+  <!-- SELECTOR DE VISTAS (Afiche / Programa / Colaboradores) -->
+  <nav class="tab-switcher">
+    <button class="tab-nav active" onclick="mostrarPestana('tab-afiche', this)">★ AFICHE OFICIAL</button>
+    <button class="tab-nav" onclick="mostrarPestana('tab-programa', this)">📅 PROGRAMA</button>
+    <button class="tab-nav" onclick="mostrarPestana('tab-colab', this)">🤝 COLABORADORES</button>
+  </nav>
 
-    <div class="cintillo-top">Gloria a Dios en las Alturas • Paz y Devoción Andina</div>
+  <!-- VISTA 1: AFICHE GIGANTOGRAFÍA OFICIAL (ESTILO FOTOS REALES) -->
+  <main class="afiche-main tab-view active" id="tab-afiche">
 
-    <header class="afiche-header">
-      <div class="tag-gran-fiesta">★ GRAN FESTIVIDAD PATRONAL 2026 ★</div>
-      <h1 class="titulo-patron">Niño Felipito</h1>
-      <div class="lugar-insignia">LARMENTA • IZCUCHACA • HUANCAVELICA</div>
+    <!-- Encabezado en Arco -->
+    <header class="header-arco">
+      <div class="badge-huayligia">★ GRAN FIESTA PATRONAL 2026 ★</div>
+      <span class="en-honor-al">EN HONOR AL SANTÍSIMO</span>
+      <span class="titulo-nino">Niño Jesús</span>
+      <span class="sub-felipito">FELIPITO</span>
+      <div><span class="pueblo-lema">PATRÓN DE LARMENTA • IZCUCHACA • HUANCAVELICA</span></div>
     </header>
 
-    <!-- Medallón Sagrado -->
-    <div class="medallon-afiche" onclick="tocarPatron()">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-      <div class="medallon-nombre">SANTÍSIMO PATRÓN</div>
-      <div class="medallon-sub">✦ Toca para bendición ✦</div>
-    </div>
+    <!-- ZONA CENTRAL: NIÑO JESÚS FLOTANTE CON DANZANTES DE HUAYLIGIA -->
+    <section class="hero-scene">
+      <div class="danzante-lateral danzante-izq">
+        <img src="images/danzante_huayligia.jpg" alt="Danzante Huayligia">
+      </div>
 
-    <!-- Mayordomía 2026 -->
-    <section class="mayordomia-banner">
-      <div class="mayordomia-title">LOS MAYORDOMOS 2026</div>
-      <span class="mayordomo-nombre">[Nombre de tu Papá]</span>
-      <div class="mayordomo-familia">y Señora Esposa, Hijos y Familiares</div>
+      <div class="nino-altar" onclick="tocarPatron()">
+        <img src="images/nino_patron.jpg" alt="Niño Felipito de Larmenta">
+      </div>
+
+      <div class="danzante-lateral danzante-der">
+        <img src="images/danzante_abuelo.jpg" alt="Danzante Tradicional">
+      </div>
     </section>
 
-    <!-- Franja de Fechas en Grande -->
-    <div class="fechas-strip">
-      <div class="fecha-col">
-        <span class="fecha-num">24</span>
-        <span class="fecha-mes">DICIEMBRE</span>
-        <span class="fecha-fase">Víspera / Castillos</span>
+    <!-- PERGAMINOS DE FECHAS (24, 25, 26 DICIEMBRE) -->
+    <section class="fechas-pergaminos">
+      <div class="pergamino-card">
+        <span class="perg-mes">DICIEMBRE</span>
+        <span class="perg-dias">24 - 25</span>
+        <span class="perg-act">VÍSPERA Y DÍA CENTRAL</span>
       </div>
-      <div style="font-size: 1.5rem; color: var(--gold-2);">•</div>
-      <div class="fecha-col">
-        <span class="fecha-num">25</span>
-        <span class="fecha-mes">DICIEMBRE</span>
-        <span class="fecha-fase">Día Central / Misa</span>
+      <div class="pergamino-card">
+        <span class="perg-mes">DICIEMBRE</span>
+        <span class="perg-dias">26 - 27</span>
+        <span class="perg-act">DESPACHO Y YUNZA</span>
       </div>
-      <div style="font-size: 1.5rem; color: var(--gold-2);">•</div>
-      <div class="fecha-col">
-        <span class="fecha-num">26</span>
-        <span class="fecha-mes">DICIEMBRE</span>
-        <span class="fecha-fase">Despacho / Yunza</span>
-      </div>
-    </div>
+    </section>
 
-    <!-- Badges de Fiesta (Típico Facebook) -->
-    <div class="badges-row">
-      <div class="fest-badge">
-        <span class="badge-icon">🍲</span>
-        <div class="badge-info">
-          <strong>ALMUERZO GENERAL</strong>
-          <span>Platos típicos gratis para devotos</span>
-        </div>
+    <!-- CUADRO DE MAYORDOMÍA (IDÉNTICO A LARMENTA FOTO 2) -->
+    <section class="mayordomia-larmenta-box">
+      <div class="mayordomo-foto-circulo">
+        <img src="images/mayordomos_real.jpg" alt="Mayordomos de Larmenta">
       </div>
-      <div class="fest-badge">
-        <span class="badge-icon">🎆</span>
-        <div class="badge-info">
-          <strong>CASTILLOS DE 10 CUERPOS</strong>
-          <span>Bombardas multicolores y toril</span>
-        </div>
+      <div class="mayordomo-info">
+        <span class="ribbon-magenta">Mayordomos</span>
+        <div class="mayordomo-nombres">[Nombre de tu Papá]</div>
+        <div class="mayordomo-dedicatoria">y Señora Esposa, Hijos y Familiares</div>
+        <div style="font-size: 0.65rem; color: #ffe600; margin-top: 3px;">Comunidad Campesina de Larmenta • 2026</div>
       </div>
-      <div class="fest-badge">
-        <span class="badge-icon">🍻</span>
-        <div class="badge-info">
-          <strong>CERVEZA BIEN HELADA</strong>
-          <span>Confraternidad y alegría comunal</span>
-        </div>
-      </div>
-      <div class="fest-badge">
-        <span class="badge-icon">🛡️</span>
-        <div class="badge-info">
-          <strong>SEGURIDAD Y TRANSPORTE</strong>
-          <span>Garantizada en toda la ruta</span>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <!-- Cartelera Artística y Bandas -->
-    <section class="cartelera-box">
-      <div class="cartelera-title">CARTELERA ARTÍSTICA Y COSTUMBRISTA</div>
+    <!-- CARTELERA ARTÍSTICA Y GRUPOS (FOTO 3 RICRÁN / HUANCAYO) -->
+    <section class="cartelera-section">
+      <div class="cartelera-title">★ GRANDIOSA CARTELERA ARTÍSTICA ★</div>
       
-      <div class="elenco-item">
-        <span class="elenco-tag">Banda</span>
-        <div class="elenco-desc">
-          <strong>Gran Banda Monumental de Músicos</strong><br>
-          <span style="color: #d8c2ad; font-size: 0.72rem;">Interpretando las mejores marchas, dianas y huaynos del valle.</span>
+      <!-- BANDA MONUMENTAL -->
+      <div class="banda-full-card">
+        <div class="banda-img-banner">
+          <img src="images/banda_artistas.jpg" alt="Banda Monumental de Músicos">
+        </div>
+        <div class="banda-txt-info">
+          <div class="banda-nombre">GRAN BANDA MONUMENTAL DE MÚSICOS</div>
+          <div style="font-size: 0.72rem; color: #d8f1ff;">Amenizando con las mejores marchas, dianas y huaynos huancavelicanos.</div>
         </div>
       </div>
 
-      <div class="elenco-item">
-        <span class="elenco-tag">Orquesta</span>
-        <div class="elenco-desc">
-          <strong>Poderosa Orquesta Folclórica del Centro</strong><br>
-          <span style="color: #d8c2ad; font-size: 0.72rem;">Gran mano a mano bailable hasta las últimas consecuencias.</span>
+      <!-- CANTANTES FOLCLÓRICAS Y CUMBIA -->
+      <div class="artistas-grid">
+        <div class="artista-tarjeta">
+          <div class="artista-img-box">
+            <img src="images/cantantes_artistas.jpg" alt="Artistas Folclóricas">
+          </div>
+          <div class="artista-nombre">ESTRELLAS DEL FOLCLORE</div>
+          <div class="artista-rol">Mano a mano bailable</div>
         </div>
-      </div>
 
-      <div class="elenco-item">
-        <span class="elenco-tag">Danzas</span>
-        <div class="elenco-desc">
-          <strong>Tradicionales Pascuas y Zapateo Japinakuy</strong><br>
-          <span style="color: #d8c2ad; font-size: 0.72rem;">Cuadrillas de danzantes venerando al Niño Felipito.</span>
+        <div class="artista-tarjeta">
+          <div class="artista-img-box">
+            <img src="images/grupo_cumbia.jpg" alt="Grupo de Cumbia">
+          </div>
+          <div class="artista-nombre">GRUPO CUMBIA SHOW</div>
+          <div class="artista-rol">Hasta el amanecer</div>
         </div>
       </div>
     </section>
 
-    <!-- Cronograma Oficial Compacto -->
-    <section class="programa-bloque">
-      <div class="prog-header">
-        <span>PROGRAMA OFICIAL HORA POR HORA</span>
-        <span style="color: var(--yellow-festivo);">24 AL 26 DIC</span>
-      </div>
-      <ul class="prog-list">
-        <li class="prog-item">
-          <span class="prog-hora">24 Dic 06:00 AM</span>
-          <span>Salva de 21 Camaretazos anunciando el alba.</span>
-        </li>
-        <li class="prog-item">
-          <span class="prog-hora">24 Dic 10:00 AM</span>
-          <span>Recepción de la Banda y entrada de víveres y chamiza.</span>
-        </li>
-        <li class="prog-item">
-          <span class="prog-hora">24 Dic 09:30 PM</span>
-          <span>Quema de Castillos Pirotécnicos y noche de calientito.</span>
-        </li>
-        <li class="prog-item">
-          <span class="prog-hora">25 Dic 10:30 AM</span>
-          <span><strong>Misa Solemne Central</strong> en la Capilla de Larmenta.</span>
-        </li>
-        <li class="prog-item">
-          <span class="prog-hora">25 Dic 12:00 PM</span>
-          <span><strong>Procesión de la Venerada Imagen</strong> por la Plaza.</span>
-        </li>
-        <li class="prog-item">
-          <span class="prog-hora">25 Dic 01:30 PM</span>
-          <span><strong>Gran Almuerzo de Confraternidad</strong> de los Mayordomos.</span>
-        </li>
-        <li class="prog-item">
-          <span class="prog-hora">25 Dic 04:00 PM</span>
-          <span>Gran Baile Popular y Concurso de Danzas.</span>
-        </li>
-        <li class="prog-item">
-          <span class="prog-hora">26 Dic 01:00 PM</span>
-          <span>Entrega de Cargo a los Mayordomos 2027 y Cortamonte.</span>
-        </li>
-      </ul>
+    <!-- PUEBLO AL FONDO (PANORÁMICA DE LA IGLESIA Y CASAS) -->
+    <div class="pueblo-panoramica">
+      <img src="images/pueblo_fondo.jpg" alt="Larmenta Izcuchaca">
+    </div>
+
+    <!-- PLEGARIA TRADICIONAL DE LARMENTA -->
+    <section class="plegaria-larmenta">
+      <span class="plegaria-titulo">Plegaria al Niño Felipito</span>
+      <p>"En tu capilla sagrada que corona nuestra colina, de donde día y noche nos vigilas con ternura, el pueblo de Larmenta eleva sus plegarias al cielo rogándote que extiendas tu bendición sobre los hogares de quienes te veneran. Amén."</p>
     </section>
 
-    <!-- Generador de Pase de Invitación -->
-    <section class="pase-section">
-      <div style="font-family: 'Cinzel', serif; font-size: 0.85rem; font-weight: 800; color: var(--gold-1);">
-        🎟️ CREA TU PASE DE HONOR DIGITAL
-      </div>
-      <div style="font-size: 0.72rem; color: #caa13f;">
-        Ingresa tu nombre o familia para generar tu tarjeta personalizada
-      </div>
-      <input type="text" id="nombreInvitado" class="pase-input" placeholder="Ej. Familia Quispe Ramos">
-      <button class="btn-generar-pase" onclick="generarPase()">GENERAR MI PASE DE HONOR</button>
-
-      <div id="paseBox" class="pase-resultado">
-        <div style="font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--yellow-festivo); letter-spacing: 2px;">PASE DE HONOR PERSONALIZADO</div>
-        <div id="nombrePaseTxt" style="font-family: 'Pinyon Script', cursive; font-size: 2.3rem; color: #fff; margin: 4px 0;">--</div>
-        <div style="font-size: 0.72rem; color: #d8c2ad; margin-bottom: 8px;">Invitado especial a la Fiesta Patronal en Larmenta.</div>
-        <button class="btn-generar-pase" style="background: var(--green-wsp); color: #fff;" onclick="compartirPaseWsp()">
-          📲 Compartir mi Pase por WhatsApp
-        </button>
-      </div>
-    </section>
-
-    <!-- Cierre de Garantía y Lemas -->
-    <footer class="garantias-strip">
-      <div>Plaza Principal de Larmenta • Izcuchaca, Huancavelica • Perú</div>
-      <span class="viva-clamor">¡VIVA EL MILAGROSO NIÑO FELIPITO!</span>
-      <div style="font-size: 0.65rem; color: #caa13f; margin-top: 4px;">Organiza: Mayordomía 2026 y Comunidad Campesina de Larmenta</div>
-    </footer>
+    <div style="text-align: center; font-size: 0.75rem; font-weight: 700; color: #0b1a2d; margin-top: 6px;">
+      Plaza Principal de Larmenta • Izcuchaca, Huancavelica • Diciembre 2026
+    </div>
 
   </main>
 
-  <!-- BARRA FIJA INFERIOR -->
-  <div class="bottom-nav">
-    <button class="btn-main-action btn-fire" onclick="quemarCastillo()">
+  <!-- VISTA 2: PROGRAMA OFICIAL CRONOLÓGICO HORA POR HORA -->
+  <main class="afiche-main tab-view" id="tab-programa" style="background: #f7fafd;">
+    
+    <div class="crono-card">
+      <div class="crono-header">
+        <span>DÍA 1: VÍSPERA Y LLEGADA</span>
+        <span>24 DICIEMBRE</span>
+      </div>
+      <table class="crono-table">
+        <tr><td class="crono-hora">06:00 AM</td><td>Salva de 21 Camaretazos anunciando el inicio oficial.</td></tr>
+        <tr><td class="crono-hora">10:00 AM</td><td>Recepción triunfal de la Banda en la entrada de Larmenta.</td></tr>
+        <tr><td class="crono-hora">02:30 PM</td><td>Entrada de víveres, leña y chamiza con comparsas.</td></tr>
+        <tr><td class="crono-hora">07:30 PM</td><td>Solemne Misa de Vísperas en la Capilla.</td></tr>
+        <tr><td class="crono-hora">09:30 PM</td><td>Quema de Castillos de 10 Cuerpos y Noche de Calientito.</td></tr>
+      </table>
+    </div>
+
+    <div class="crono-card">
+      <div class="crono-header">
+        <span>DÍA 2: DÍA CENTRAL Y PROCESIÓN</span>
+        <span>25 DICIEMBRE</span>
+      </div>
+      <table class="crono-table">
+        <tr><td class="crono-hora">07:00 AM</td><td>Diana Floreada por las calles de la comunidad.</td></tr>
+        <tr><td class="crono-hora">10:30 AM</td><td><strong>Misa Solemne Central</strong> en honor al Niño Felipito.</td></tr>
+        <tr><td class="crono-hora">12:00 PM</td><td><strong>Solemne Procesión</strong> de la Venerada Imagen.</td></tr>
+        <tr><td class="crono-hora">01:30 PM</td><td><strong>Almuerzo de Confraternidad</strong> ofrecido por los Mayordomos.</td></tr>
+        <tr><td class="crono-hora">04:00 PM</td><td>Gran Baile Popular y Concurso de Danzas y Zapateo.</td></tr>
+      </table>
+    </div>
+
+    <div class="crono-card">
+      <div class="crono-header">
+        <span>DÍA 3: DESPACHO Y TRASPASO</span>
+        <span>26 DICIEMBRE</span>
+      </div>
+      <table class="crono-table">
+        <tr><td class="crono-hora">10:00 AM</td><td>Misa de Acción de Gracias.</td></tr>
+        <tr><td class="crono-hora">01:00 PM</td><td>Entrega de Cargo y Vara a los Mayordomos 2027.</td></tr>
+        <tr><td class="crono-hora">03:30 PM</td><td>Tradicional Cortamonte (Yunza) y despedida de la Banda.</td></tr>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- VISTA 3: CUADRO DE HONOR DE COLABORADORES Y PADRINOS -->
+  <main class="afiche-main tab-view" id="tab-colab" style="background: #f7fafd;">
+    
+    <section class="colab-section">
+      <div class="colab-title">★ CUADRO DE HONOR DE COLABORADORES ★</div>
+      <p style="text-align: center; font-size: 0.74rem; color: #555; margin-bottom: 12px;">
+        La Mayordomía 2026 expresa su profundo agradecimiento a las familias y devotos donantes de fe:
+      </p>
+
+      <div class="padrinos-lista">
+        <div class="padrino-fila">
+          <span class="padrino-cargo">Padrino de Misa Solemne Central</span>
+          <div class="padrino-nombres">Familia Quispe Santamaría</div>
+          <span class="padrino-lugar">Residentes en Huancayo</span>
+        </div>
+
+        <div class="padrino-fila">
+          <span class="padrino-cargo">Padrino de Castillo Pirotécnico (10 Cuerpos)</span>
+          <div class="padrino-nombres">Sr. Carlos Huamán Espinoza y Familia</div>
+          <span class="padrino-lugar">Residentes en Lima - Ate Vitarte</span>
+        </div>
+
+        <div class="padrino-fila">
+          <span class="padrino-cargo">Donante de la Gran Banda Monumental</span>
+          <div class="padrino-nombres">Comité de Hijos Larmentinos en Lima</div>
+          <span class="padrino-lugar">Lima - San Juan de Lurigancho</span>
+        </div>
+
+        <div class="padrino-fila">
+          <span class="padrino-cargo">Donante de 50 Cajas de Cerveza</span>
+          <div class="padrino-nombres">Familia Espinoza Corazón</div>
+          <span class="padrino-lugar">Larmenta - Izcuchaca</span>
+        </div>
+
+        <div class="padrino-fila">
+          <span class="padrino-cargo">Padrino de Cirios y Vestimenta del Niño</span>
+          <div class="padrino-nombres">Sra. Rosaura Muñoz Vda. de Espinoza</div>
+          <span class="padrino-lugar">Izcuchaca</span>
+        </div>
+
+        <div class="padrino-fila">
+          <span class="padrino-cargo">Donantes de Trofeos Campeonato Deportivo</span>
+          <div class="padrino-nombres">Juventud Larmentina 2026</div>
+          <span class="padrino-lugar">Huancayo</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BARRA INFERIOR FIJA -->
+  <footer class="bottom-bar">
+    <button class="btn-action-main btn-fire" onclick="quemarCastillo()">
       🎆 Encender Castillo
     </button>
-    <a id="btnShareWsp" class="btn-main-action btn-wsp" href="#" target="_blank">
+    <a id="btnShareWsp" class="btn-action-main btn-wsp" href="#" target="_blank">
       📲 Compartir por WhatsApp
     </a>
-  </div>
+  </footer>
 
   <script>
-    // 1. AUDIO Y EFECTOS EN VIVO
+    // 1. SELECTOR DE PESTAÑAS (AFICHE / PROGRAMA / COLABORADORES)
+    function mostrarPestana(tabId, btn) {
+      document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-nav').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 2. SISTEMA DE AUDIO EN VIVO
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function sonarCampana() {
@@ -769,26 +897,25 @@
       noise.start();
 
       document.body.style.backgroundColor = '#fff';
-      setTimeout(() => { document.body.style.backgroundColor = 'var(--bg-dark)'; }, 90);
+      setTimeout(() => { document.body.style.backgroundColor = '#0b1a2d'; }, 90);
     }
 
-    // Audio de Banda Local
-    const banda = document.getElementById('audioBanda');
-    const chipAudio = document.getElementById('chipAudio');
-    const chipAudioTxt = document.getElementById('chipAudioTxt');
+    const banda = document.getElementById('bandaAudio');
+    const btnAudio = document.getElementById('btnAudio');
+    const audioTxt = document.getElementById('audioTxt');
 
     function toggleAudio() {
       if (banda.paused) {
         banda.play().then(() => {
-          chipAudio.classList.add('active');
-          chipAudioTxt.textContent = 'Sonando';
+          btnAudio.classList.add('active');
+          audioTxt.textContent = 'Sonando';
         }).catch(() => {
-          alert('Toca la pantalla para activar el audio.');
+          alert('Toca la pantalla para activar el audio de la banda.');
         });
       } else {
         banda.pause();
-        chipAudio.classList.remove('active');
-        chipAudioTxt.textContent = 'Banda';
+        btnAudio.classList.remove('active');
+        audioTxt.textContent = 'Banda';
       }
     }
 
@@ -797,7 +924,7 @@
       quemarCastillo();
     }
 
-    // 2. SIMULADOR DE CASTILLOS (CANVAS)
+    // 3. PIROTECNIA Y CASTILLOS (CANVAS)
     const canvas = document.getElementById('fireworksCanvas');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -812,7 +939,7 @@
 
     function quemarCastillo() {
       lanzarCamaretazo();
-      const colors = ['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d', '#43aa8b', '#00f0ff', '#ffffff'];
+      const colors = ['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d', '#43aa8b', '#ffe600', '#ffffff'];
       for (let burst = 0; burst < 5; burst++) {
         setTimeout(() => {
           const ox = width * (0.2 + Math.random() * 0.6);
@@ -859,40 +986,16 @@
     }
     loopFireworks();
 
-    // 3. GENERADOR DE PASES
-    function generarPase() {
-      const nombre = document.getElementById('nombreInvitado').value.trim();
-      if (!nombre) {
-        alert('Por favor ingresa un nombre o apellido.');
-        return;
-      }
-      document.getElementById('nombrePaseTxt').textContent = nombre;
-      document.getElementById('paseBox').style.display = 'block';
-      lanzarCamaretazo();
-    }
-
-    function compartirPaseWsp() {
-      const nombre = document.getElementById('nombreInvitado').value.trim();
-      const url = window.location.href;
-      const text = encodeURIComponent(
-        `🎊 *INVITACIÓN DE HONOR • NIÑO FELIPITO 2026*\n` +
-        `Para: *${nombre}*\n` +
-        `Los Mayordomos tienen el honor de invitarte a la Gran Fiesta Patronal en Larmenta - Izcuchaca.\n\n` +
-        `👉 Mira el afiche y programa oficial aquí:\n${url}`
-      );
-      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-    }
-
-    // Compartir por WhatsApp por defecto
+    // Compartir por WhatsApp
     const currentUrl = window.location.href;
-    const defaultMsg = encodeURIComponent(
-      `🎊 *GRAN FIESTA PATRONAL • NIÑO FELIPITO 2026*\n` +
+    const msgWsp = encodeURIComponent(
+      `🎊 *GRAN FESTIVIDAD PATRONAL • NIÑO FELIPITO 2026*\n` +
       `📍 *Larmenta - Izcuchaca, Huancavelica*\n` +
       `📅 *24, 25 y 26 de Diciembre*\n\n` +
-      `Los Mayordomos tienen el agrado de hacerles llegar el afiche y programa oficial.\n\n` +
-      `👉 Abre el afiche oficial aquí:\n${currentUrl}`
+      `Los Mayordomos tienen el honor de invitarte al afiche oficial y cuadro de colaboradores:\n\n` +
+      `👉 Abre el programa oficial aquí:\n${currentUrl}`
     );
-    document.getElementById('btnShareWsp').href = `https://api.whatsapp.com/send?text=${defaultMsg}`;
+    document.getElementById('btnShareWsp').href = `https://api.whatsapp.com/send?text=${msgWsp}`;
   </script>
 </body>
 </html>
